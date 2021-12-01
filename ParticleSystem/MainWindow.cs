@@ -39,6 +39,7 @@ namespace ParticleSystem
         private void time_Tick(object sender, EventArgs e)
         {
             generator.Update();
+            particlesAmountValue.Text = generator.GetParticlesAmount().ToString();
             using (Graphics drawer = Graphics.FromImage(viewPort.Image))
             {
                 drawer.Clear(Color.Black);

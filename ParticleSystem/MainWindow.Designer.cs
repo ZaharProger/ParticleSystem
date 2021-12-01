@@ -42,6 +42,7 @@ namespace ParticleSystem
             this.endColorLabel = new System.Windows.Forms.Label();
             this.redColorButton = new System.Windows.Forms.Button();
             this.time = new System.Windows.Forms.Timer(this.components);
+            this.particlesAmountValue = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.viewPort)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -54,6 +55,7 @@ namespace ParticleSystem
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 83.7884F));
             this.tableLayoutPanel1.Controls.Add(this.viewPort, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.particlesAmountValue, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -246,6 +248,17 @@ namespace ParticleSystem
             this.time.Interval = 30;
             this.time.Tick += new System.EventHandler(this.time_Tick);
             // 
+            // particlesAmountValue
+            // 
+            this.particlesAmountValue.AutoSize = true;
+            this.particlesAmountValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.particlesAmountValue.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.particlesAmountValue.Location = new System.Drawing.Point(8, 705);
+            this.particlesAmountValue.Name = "particlesAmountValue";
+            this.particlesAmountValue.Size = new System.Drawing.Size(183, 143);
+            this.particlesAmountValue.TabIndex = 2;
+            this.particlesAmountValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -260,6 +273,7 @@ namespace ParticleSystem
             this.TopMost = true;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.viewPort)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -280,5 +294,6 @@ namespace ParticleSystem
         private System.Windows.Forms.Label startColorLabel;
         private System.Windows.Forms.Label endColorLabel;
         private System.Windows.Forms.Button redColorButton;
+        private System.Windows.Forms.Label particlesAmountValue;
     }
 }

@@ -10,6 +10,7 @@ namespace ParticleSystem
     class Generator
     {
         private List<Particle> particles;
+        private int particlesAmount;
         private int x;
         private int y;
         private static float gravitationX = 0;
@@ -24,6 +25,7 @@ namespace ParticleSystem
             y = 0;
             startColor = "ffff0000";
             endColor = "000000ff";
+            particlesAmount = 0;
         }
 
         public Generator(int x, int y, string startColor, string endColor)
@@ -33,6 +35,7 @@ namespace ParticleSystem
             this.y = y;
             this.startColor = startColor;
             this.endColor = endColor;
+            particlesAmount = 0;
         }
 
         public void SetX(int x)
@@ -55,6 +58,11 @@ namespace ParticleSystem
             this.endColor = endColor;
         }
 
+        public int GetParticlesAmount()
+        {
+            return particlesAmount;
+        }
+
         //Обновление генератора
         public void Update()
         {
@@ -70,6 +78,7 @@ namespace ParticleSystem
                     particle.ResetSpeedY();
                     particle.SetX(x);
                     particle.SetY(y);
+                    ++particlesAmount;
                 }
                 else
                 {
