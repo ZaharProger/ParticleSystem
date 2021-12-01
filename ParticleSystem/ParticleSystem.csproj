@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="HexToRGBConverter.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
