@@ -28,11 +28,31 @@ namespace ParticleSystem
             generator.SetY(e.Y);
         }
 
-        //закрытие формы клавишей
+        //обработка нажатий клавиш
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
                 Close();
+            else if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    generator.SetFrequency((int)uint.Parse(frequencyField.Text));
+                }
+                catch (FormatException)
+                {
+                    frequencyField.Text = "";
+                    MessageBox.Show("Введите целое число!", "Ошибка");
+                }
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show("Данные не получены!", "Ошибка");
+                }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Введите положительное число не более " + int.MaxValue, "Ошибка");
+                }
+            }
         }
 
         //событие при очередном тике таймера
@@ -146,8 +166,8 @@ namespace ParticleSystem
         {
             greenColorButton.FlatAppearance.BorderSize = 1;
         }
-        #endregion[события при наведении курсора на кнопки]
 
+        #endregion[события при наведении курсора на кнопки]
 
     }
 }

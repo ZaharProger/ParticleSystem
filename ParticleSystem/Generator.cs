@@ -17,6 +17,7 @@ namespace ParticleSystem
         private static float gravitationY = 1;
         private string startColor;
         private string endColor;
+        private int frequency;
 
         public Generator()
         {
@@ -26,9 +27,10 @@ namespace ParticleSystem
             startColor = "ffff0000";
             endColor = "000000ff";
             particlesAmount = 0;
+            frequency = 10;
         }
 
-        public Generator(int x, int y, string startColor, string endColor)
+        public Generator(int x, int y, string startColor, string endColor, int frequency)
         {
             particles = new List<Particle>();
             this.x = x;
@@ -36,6 +38,7 @@ namespace ParticleSystem
             this.startColor = startColor;
             this.endColor = endColor;
             particlesAmount = 0;
+            this.frequency = frequency;
         }
 
         public void SetX(int x)
@@ -61,6 +64,12 @@ namespace ParticleSystem
         public int GetParticlesAmount()
         {
             return particlesAmount;
+        }
+
+        public void SetFrequency(int frequency)
+        {
+            this.frequency = frequency;
+            particles.Clear();
         }
 
         //Обновление генератора
@@ -89,11 +98,7 @@ namespace ParticleSystem
                 }
             }
 
-            //создаем частицы в количестве 10 штук за тик до 500 штук
-            for (int i = 0; i < 20 && particles.Count < 500; ++i)
-            {
-                particles.Add(new Particle(x, y));
-            }
+            CreateParticles(frequency);
         }
 
         //Отрисовка частиц
@@ -103,6 +108,16 @@ namespace ParticleSystem
             {
                 particle.Draw(drawer, startColor, endColor);
             }
-    }
+        }
+
+        //Создание частиц
+        private void CreateParticles(int frequency)
+        {
+            //создаем частицы
+            for (int i = 0; i < frequency && particles.Count < frequency * 50; ++i)
+            {
+                particles.Add(new Particle(x, y));
+            }
+        }
     }
 }
