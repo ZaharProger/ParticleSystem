@@ -14,18 +14,44 @@ namespace ParticleSystem
     {
 
         private Generator generator;
+        private List<ImpactPoint> impactPoints;
+        private ParticleCollector collector;
+        private short collectorSizeFlag;
+
         public MainWindow()
         {
             InitializeComponent();
+            collectorSizeFlag = 0;
             viewPort.Image = new Bitmap(viewPort.Width, viewPort.Height);
             generator = new Generator();
+            generator.SetX(viewPort.Width / 2);
+            generator.SetY(viewPort.Height / 2 - 30);
+            collector = new ParticleCollector();
+            impactPoints = new List<ImpactPoint>();
+            impactPoints.Add(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 20, 50, 300, false));
+            impactPoints.Add(collector);
         }
 
-        //считывание координат курсора
+        //обработка двойного щелчка
+        private void viewPort_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            collectorSizeFlag = 0;
+        }
+
+        //обработка нажатий клавиши мыши
+        private void viewPort_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                collectorSizeFlag = 1;
+            else if (e.Button == MouseButtons.Right)
+                collectorSizeFlag = -1;
+        }
+
+        //обработка движения мыши
         private void viewPort_MouseMove(object sender, MouseEventArgs e)
         {
-            generator.SetX(e.X);
-            generator.SetY(e.Y);
+            collector.SetX(e.X);
+            collector.SetY(e.Y);          
         }
 
         //обработка нажатий клавиш
@@ -53,17 +79,27 @@ namespace ParticleSystem
                     MessageBox.Show("Введите положительное число не более " + int.MaxValue, "Ошибка");
                 }
             }
+            else
+            {
+                frequencyField.Focus();
+            }
         }
 
         //событие при очередном тике таймера
         private void time_Tick(object sender, EventArgs e)
         {
+            collector.AddWidth(collectorSizeFlag);
             generator.Update();
-            particlesAmountValue.Text = generator.GetParticlesAmount().ToString();
+            particlesAmountValue.Text = generator.GetParticlesAmount().ToString();           
             using (Graphics drawer = Graphics.FromImage(viewPort.Image))
             {
                 drawer.Clear(Color.Black);
                 generator.Render(drawer);
+                foreach (ImpactPoint point in impactPoints)
+                {
+                    generator.ReleaseImpact(point);
+                    point.Draw(drawer);
+                }
             }
             viewPort.Invalidate();
         }
@@ -167,7 +203,6 @@ namespace ParticleSystem
             greenColorButton.FlatAppearance.BorderSize = 1;
         }
 
-        #endregion[события при наведении курсора на кнопки]
-
+        #endregion[события при наведении курсора на кнопки]          
     }
 }

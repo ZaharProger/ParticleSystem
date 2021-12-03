@@ -95,13 +95,21 @@ namespace ParticleSystem
                     particle.AddSpeedY(gravitationY);
                     particle.AddX(particle.GetSpeedX());
                     particle.AddY(particle.GetSpeedY());
-                }
+                }              
             }
 
             CreateParticles(frequency);
         }
 
-        //Отрисовка частиц
+        public void ReleaseImpact(ImpactPoint point)
+        {
+            foreach(Particle particle in particles)
+            {
+                point.Impact(particle);
+            }
+        }
+
+        //Отрисовка
         public void Render(System.Drawing.Graphics drawer)
         {
             foreach (Particle particle in particles)

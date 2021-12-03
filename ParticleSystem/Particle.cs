@@ -31,6 +31,11 @@ namespace ParticleSystem
             radius = (short)dataGenerator.Next(1, 16);
         }
 
+        public short GetRadius()
+        {
+            return radius;
+        }
+
         public void ResetHealth()
         {
             health = (float)dataGenerator.Next(10, 101);
@@ -44,6 +49,11 @@ namespace ParticleSystem
         public float GetHealth()
         {
             return health;
+        }
+
+        public void SetHealth(float health)
+        {
+            this.health = health;
         }
 
         public void ResetSpeedX()
@@ -64,6 +74,16 @@ namespace ParticleSystem
         public void SetY(float y)
         {
             this.y = y;
+        }
+
+        public float GetX()
+        {
+            return x;
+        }
+
+        public float GetY()
+        {
+            return y;
         }
 
         public void SetSpeedX(float speedX)
