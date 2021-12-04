@@ -101,6 +101,11 @@ namespace ParticleSystem
             particleMaxSpeed = speed;
         }
 
+        public void SetMinSpeed(short speed)
+        {
+            particleMinSpeed = speed;
+        }
+
         public short GetMaxSpeed()
         {
             return particleMaxSpeed;
@@ -197,7 +202,8 @@ namespace ParticleSystem
 
             foreach (ImpactPoint point in impactPoints)
             {
-                point.Draw(drawer);
+                if (point is ParticleCollector)
+                    point.Draw(drawer);
             }
         }
 

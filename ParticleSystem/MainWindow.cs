@@ -33,17 +33,24 @@ namespace ParticleSystem
             spreadingBar.Minimum = 1;
 
             collectorSizeFlag = 0;
-            activeGenerator = 0;
+            activeGenerator = 1;
             viewPort.Image = new Bitmap(viewPort.Width, viewPort.Height);
 
 
             generators = new List<Generator>();
-            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 100, 10, 100, 10, 10, 0, 10, "ffdfbfa1", "00af957b", 10, 0, 0));
-            
-            
+            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 250, 10, 100, 10, 10, 0, 10, "ffdfbfa1", "00af957b", 10, 0, 0));
+            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 + 120, 10, 100, 1, 10, 0, 10, "ffff0000", "000000ff", 10, 0, 1));
+            generators.Add(new Generator(viewPort.Width / 2 - 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 1));
+            generators.Add(new Generator(viewPort.Width / 2 + 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 180, 1, "ffff0000", "000000ff", 10, 0, 1));
             collector = new ParticleCollector();
-            generators[generators.Count - 1].AddImpactPoint(collector);
-            generators[generators.Count - 1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 200, 200, 100, false));        
+            foreach (Generator generator in generators)
+            {
+                generator.AddImpactPoint(collector);
+            }
+            generators[0].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 500, 500, 100, false));
+            generators[1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2 + 120, 20, 20, 50, false));
+            generators[2].AddImpactPoint(new GravityPoint(viewPort.Width / 2 - 80, viewPort.Height / 2 - 80, 20, 20, 500, false));
+            generators[3].AddImpactPoint(new GravityPoint(viewPort.Width / 2 + 80, viewPort.Height / 2 - 80, 20, 20, 500, false));
         }
 
         //обработка двойного щелчка
@@ -108,16 +115,17 @@ namespace ParticleSystem
             directionBar.Value = generators[activeGenerator].GetDirection();
             spreadingBar.Value = generators[activeGenerator].GetSpreading();
             collector.AddWidth(collectorSizeFlag);
-            foreach(Generator generator in generators)
+            using (Graphics drawer = Graphics.FromImage(viewPort.Image))
             {
-                generator.Update();
-                particlesAmountValue.Text = generator.GetParticlesAmount().ToString();
-                using (Graphics drawer = Graphics.FromImage(viewPort.Image))
+                drawer.Clear(Color.Black);
+                foreach (Generator generator in generators)
                 {
-                    drawer.Clear(Color.Black);
+                    generator.Update();
+                    particlesAmountValue.Text = (int.Parse(particlesAmountValue.Text) + generator.GetParticlesAmount()).ToString();                    
                     generator.Render(drawer);
                 }
             }
+            
             viewPort.Invalidate();
         }
 
@@ -225,7 +233,7 @@ namespace ParticleSystem
         #region[изменение параметров генератора]
         private void radiusBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetMaxRadius((short)radiusBar.Value);
+            generators[activeGenerator].SetMaxRadius((short)radiusBar.Value);       
         }
 
         private void healthBar_Scroll(object sender, EventArgs e)
@@ -236,6 +244,8 @@ namespace ParticleSystem
         private void speedBar_Scroll(object sender, EventArgs e)
         {
             generators[activeGenerator].SetMaxSpeed((short)speedBar.Value);
+            if (activeGenerator == 0)
+                generators[activeGenerator].SetMinSpeed((short)speedBar.Value);
         }
 
         private void directionBar_Scroll(object sender, EventArgs e)
@@ -272,12 +282,12 @@ namespace ParticleSystem
 
         private void generator5Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 4;
+            activeGenerator = 5;
         }
 
         private void generator6Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 5;
+            activeGenerator = 6;
         }
         #endregion[выбор генератора]       
        
