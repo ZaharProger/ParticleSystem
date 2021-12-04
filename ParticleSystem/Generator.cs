@@ -32,11 +32,8 @@ namespace ParticleSystem
             particles = new List<Particle>();
             x = 0;
             y = 0;
-            particleMinRadius = 1;
             particleMaxRadius = 15;
-            particleMinHealth = 10;
             particleMaxHealth = 100;
-            particleMinSpeed = 1;
             particleMaxSpeed = 10;
             direction = 0;
             spreading = 360;
@@ -46,16 +43,13 @@ namespace ParticleSystem
             frequency = 10;
         }
 
-        public Generator(int x, int y, short minRadius, short maxRadius, short minHealth, short maxHealth, short minSpeed, short maxSpeed, short direction, short spreading, string startColor, string endColor, int frequency)
+        public Generator(int x, int y, short maxRadius, short maxHealth, short maxSpeed, short direction, short spreading, string startColor, string endColor, int frequency)
         {
             particles = new List<Particle>();
             this.x = x;
             this.y = y;
-            particleMinRadius = minRadius;
             particleMaxRadius = maxRadius;
-            particleMinHealth = minHealth;
             particleMaxHealth = maxHealth;
-            particleMinSpeed = minSpeed;
             particleMaxSpeed = maxSpeed;
             this.direction = direction;
             this.spreading = spreading;
@@ -75,29 +69,14 @@ namespace ParticleSystem
             this.y = y;
         }
 
-        public void SetMinRadius(short radius)
-        {
-            particleMinRadius = radius;
-        }
-
         public void SetMaxRadius(short radius)
         {
             particleMaxRadius = radius;
         }
 
-        public void SetMinHealth(short health)
-        {
-            particleMinHealth = health;
-        }
-
         public void SetMaxHealth(short health)
         {
             particleMaxHealth = health;
-        }
-
-        public void SetMinSpeed(short speed)
-        {
-            particleMinSpeed = speed;
         }
 
         public void SetMaxSpeed(short speed)
@@ -145,10 +124,10 @@ namespace ParticleSystem
                 particle.AddHealth(-0.5f);
                 if (particle.GetHealth() < 0)
                 {
-                    particle.ResetHealth(particleMinHealth, particleMaxHealth);
-                    particle.ResetRadius(particleMinRadius, particleMaxRadius);
-                    particle.ResetSpeedX(particleMinSpeed, particleMaxSpeed, direction, spreading);
-                    particle.ResetSpeedY(particleMinSpeed, particleMaxSpeed, direction, spreading);
+                    particle.ResetHealth(particleMaxHealth);
+                    particle.ResetRadius(particleMaxRadius);
+                    particle.ResetSpeedX(particleMaxSpeed, direction, spreading);
+                    particle.ResetSpeedY(particleMaxSpeed, direction, spreading);
                     particle.SetX(x);
                     particle.SetY(y);
                     ++particlesAmount;
@@ -188,7 +167,7 @@ namespace ParticleSystem
             //создаем частицы
             for (int i = 0; i < frequency && particles.Count < frequency * 50; ++i)
             {
-                particles.Add(new Particle(x, y, particleMinRadius, particleMaxRadius, particleMinHealth, particleMaxHealth, particleMinSpeed, particleMaxSpeed, direction, spreading));
+                particles.Add(new Particle(x, y, particleMaxRadius, particleMaxHealth, particleMaxSpeed, direction, spreading));
             }
         }
     }

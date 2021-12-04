@@ -13,19 +13,31 @@ namespace ParticleSystem
     public partial class MainWindow : Form
     {
 
-        private Generator generator;
+        private List<Generator> generators;
         private List<ImpactPoint> impactPoints;
         private ParticleCollector collector;
         private short collectorSizeFlag;
+        private short activeGenerator;
 
         public MainWindow()
         {
             InitializeComponent();
+            radiusBar.Maximum = 50;
+            radiusBar.Minimum = 1;
+            healthBar.Maximum = 100;
+            healthBar.Minimum = 1;
+            speedBar.Maximum = 100;
+            speedBar.Minimum = 1;
+            directionBar.Maximum = 360;
+            directionBar.Minimum = 0;
+            spreadingBar.Maximum = 359;
+            spreadingBar.Minimum = 1;
+
             collectorSizeFlag = 0;
+            activeGenerator = 0;
             viewPort.Image = new Bitmap(viewPort.Width, viewPort.Height);
-            generator = new Generator();
-            generator.SetX(viewPort.Width / 2);
-            generator.SetY(viewPort.Height / 2 - 30);
+            generators = new List<Generator>();
+            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 100, 10, 100, 10, 0, 10, "ffff0000", "000000ff", 10));
             collector = new ParticleCollector();
             impactPoints = new List<ImpactPoint>();
             impactPoints.Add(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 20, 50, 300, false));
@@ -63,7 +75,7 @@ namespace ParticleSystem
             {
                 try
                 {
-                    generator.SetFrequency((int)uint.Parse(frequencyField.Text));
+                    generators[activeGenerator].SetFrequency((int)uint.Parse(frequencyField.Text));
                 }
                 catch (FormatException)
                 {
@@ -89,16 +101,19 @@ namespace ParticleSystem
         private void time_Tick(object sender, EventArgs e)
         {
             collector.AddWidth(collectorSizeFlag);
-            generator.Update();
-            particlesAmountValue.Text = generator.GetParticlesAmount().ToString();           
-            using (Graphics drawer = Graphics.FromImage(viewPort.Image))
+            foreach(Generator generator in generators)
             {
-                drawer.Clear(Color.Black);
-                generator.Render(drawer);
-                foreach (ImpactPoint point in impactPoints)
+                generator.Update();
+                particlesAmountValue.Text = generator.GetParticlesAmount().ToString();
+                using (Graphics drawer = Graphics.FromImage(viewPort.Image))
                 {
-                    generator.ReleaseImpact(point);
-                    point.Draw(drawer);
+                    drawer.Clear(Color.Black);
+                    generator.Render(drawer);
+                    foreach (ImpactPoint point in impactPoints)
+                    {
+                        generator.ReleaseImpact(point);
+                        point.Draw(drawer);
+                    }
                 }
             }
             viewPort.Invalidate();
@@ -108,37 +123,37 @@ namespace ParticleSystem
         //выбор начального красного цвета для частиц
         private void redColorButton_Click(object sender, EventArgs e)
         {
-            generator.SetStartColor("ffff0000");
+            generators[activeGenerator].SetStartColor("ffff0000");
         }
 
         //выбор конечного оранжевого цвета для частиц
         private void orangeColorButton_Click(object sender, EventArgs e)
         {
-            generator.SetStartColor("ffff8000");
+            generators[activeGenerator].SetStartColor("ffff8000");
         }
 
         //выбор начального желтого цвета для частиц
         private void yellowColorButton_Click(object sender, EventArgs e)
         {
-            generator.SetStartColor("ffffff00");
+            generators[activeGenerator].SetStartColor("ffffff00");
         }
 
         //выбор конечного синего цвета для частиц
         private void blueColorButton_Click(object sender, EventArgs e)
         {
-            generator.SetEndColor("000000ff");
+            generators[activeGenerator].SetEndColor("000000ff");
         }
 
         //выбор конечного розового цвета для частиц
         private void pinkColorButton_Click(object sender, EventArgs e)
         {
-            generator.SetEndColor("00ec0dda");
+            generators[activeGenerator].SetEndColor("00ec0dda");
         }
 
         //выбор конечного зеленого цвета для частиц
         private void greenColorButton_Click(object sender, EventArgs e)
         {
-            generator.SetEndColor("0000ff00");
+            generators[activeGenerator].SetEndColor("0000ff00");
         }
         #endregion[установка цветов]
 
@@ -204,5 +219,65 @@ namespace ParticleSystem
         }
 
         #endregion[события при наведении курсора на кнопки]          
+
+        #region[изменение параметров генератора]
+        private void radiusBar_Scroll(object sender, EventArgs e)
+        {
+            generators[activeGenerator].SetMaxRadius((short)radiusBar.Value);
+        }
+
+        private void healthBar_Scroll(object sender, EventArgs e)
+        {
+            generators[activeGenerator].SetMaxHealth((short)healthBar.Value);
+        }
+
+        private void speedBar_Scroll(object sender, EventArgs e)
+        {
+            generators[activeGenerator].SetMaxSpeed((short)speedBar.Value);
+        }
+
+        private void directionBar_Scroll(object sender, EventArgs e)
+        {
+            generators[activeGenerator].SetDirection((short)directionBar.Value);
+        }
+
+        private void spreadingBar_Scroll(object sender, EventArgs e)
+        {
+            generators[activeGenerator].SetSpreading((short)spreadingBar.Value);
+        }
+        #endregion[изменение параметров генератора]
+
+        #region[выбор генератора]
+        private void generator1Button_Click(object sender, EventArgs e)
+        {
+            activeGenerator = 0;
+        }
+
+        private void generator2Button_Click(object sender, EventArgs e)
+        {
+            activeGenerator = 1;
+        }
+
+        private void generator3Button_Click(object sender, EventArgs e)
+        {
+            activeGenerator = 2;
+        }
+
+        private void generator4Button_Click(object sender, EventArgs e)
+        {
+            activeGenerator = 3;
+        }
+
+        private void generator5Button_Click(object sender, EventArgs e)
+        {
+            activeGenerator = 4;
+        }
+
+        private void generator6Button_Click(object sender, EventArgs e)
+        {
+            activeGenerator = 5;
+        }
+        #endregion[выбор генератора]       
+       
     }
 }
