@@ -14,7 +14,6 @@ namespace ParticleSystem
     {
 
         private List<Generator> generators;
-        private List<ImpactPoint> impactPoints;
         private ParticleCollector collector;
         private short collectorSizeFlag;
         private short activeGenerator;
@@ -36,12 +35,15 @@ namespace ParticleSystem
             collectorSizeFlag = 0;
             activeGenerator = 0;
             viewPort.Image = new Bitmap(viewPort.Width, viewPort.Height);
+
+
             generators = new List<Generator>();
-            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 100, 10, 100, 10, 0, 10, "ffff0000", "000000ff", 10));
+            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 100, 10, 100, 10, 10, 0, 10, "ffdfbfa1", "00af957b", 10, 0, 0));
+            
+            
             collector = new ParticleCollector();
-            impactPoints = new List<ImpactPoint>();
-            impactPoints.Add(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 20, 50, 300, false));
-            impactPoints.Add(collector);
+            generators[generators.Count - 1].AddImpactPoint(collector);
+            generators[generators.Count - 1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 200, 200, 100, false));        
         }
 
         //обработка двойного щелчка
@@ -100,6 +102,11 @@ namespace ParticleSystem
         //событие при очередном тике таймера
         private void time_Tick(object sender, EventArgs e)
         {
+            radiusBar.Value = generators[activeGenerator].GetMaxRadius();
+            healthBar.Value = generators[activeGenerator].GetMaxHealth();
+            speedBar.Value = generators[activeGenerator].GetMaxSpeed();
+            directionBar.Value = generators[activeGenerator].GetDirection();
+            spreadingBar.Value = generators[activeGenerator].GetSpreading();
             collector.AddWidth(collectorSizeFlag);
             foreach(Generator generator in generators)
             {
@@ -109,11 +116,6 @@ namespace ParticleSystem
                 {
                     drawer.Clear(Color.Black);
                     generator.Render(drawer);
-                    foreach (ImpactPoint point in impactPoints)
-                    {
-                        generator.ReleaseImpact(point);
-                        point.Draw(drawer);
-                    }
                 }
             }
             viewPort.Invalidate();

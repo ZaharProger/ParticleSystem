@@ -10,19 +10,18 @@ namespace ParticleSystem
     class Generator
     {
         private List<Particle> particles;
+        private List<ImpactPoint> impactPoints;
         private int particlesAmount;
         private int x;
         private int y;
-        private short particleMinRadius;
         private short particleMaxRadius;
         private short particleMinSpeed;
         private short particleMaxSpeed;
-        private short particleMinHealth;
         private short particleMaxHealth;
         private short direction;
         private short spreading;
-        private static float gravitationX = 0;
-        private static float gravitationY = 1;
+        private float gravitationX;
+        private float gravitationY;
         private string startColor;
         private string endColor;
         private int frequency;
@@ -30,10 +29,12 @@ namespace ParticleSystem
         public Generator()
         {
             particles = new List<Particle>();
+            impactPoints = new List<ImpactPoint>();
             x = 0;
             y = 0;
             particleMaxRadius = 15;
             particleMaxHealth = 100;
+            particleMinSpeed = 1;
             particleMaxSpeed = 10;
             direction = 0;
             spreading = 360;
@@ -41,15 +42,19 @@ namespace ParticleSystem
             endColor = "000000ff";
             particlesAmount = 0;
             frequency = 10;
+            gravitationX = 0;
+            gravitationY = 1;
         }
 
-        public Generator(int x, int y, short maxRadius, short maxHealth, short maxSpeed, short direction, short spreading, string startColor, string endColor, int frequency)
+        public Generator(int x, int y, short maxRadius, short maxHealth, short minSpeed, short maxSpeed, short direction, short spreading, string startColor, string endColor, int frequency, float gravitationX, float gravitationY)
         {
             particles = new List<Particle>();
+            impactPoints = new List<ImpactPoint>();
             this.x = x;
             this.y = y;
             particleMaxRadius = maxRadius;
             particleMaxHealth = maxHealth;
+            particleMinSpeed = minSpeed;
             particleMaxSpeed = maxSpeed;
             this.direction = direction;
             this.spreading = spreading;
@@ -57,6 +62,8 @@ namespace ParticleSystem
             this.endColor = endColor;
             particlesAmount = 0;
             this.frequency = frequency;
+            this.gravitationX = gravitationX;
+            this.gravitationY = gravitationY;
         }
 
         public void SetX(int x)
@@ -74,9 +81,19 @@ namespace ParticleSystem
             particleMaxRadius = radius;
         }
 
+        public short GetMaxRadius()
+        {
+            return particleMaxRadius;
+        }
+
         public void SetMaxHealth(short health)
         {
             particleMaxHealth = health;
+        }
+
+        public short GetMaxHealth()
+        {
+            return particleMaxHealth;
         }
 
         public void SetMaxSpeed(short speed)
@@ -84,14 +101,29 @@ namespace ParticleSystem
             particleMaxSpeed = speed;
         }
 
+        public short GetMaxSpeed()
+        {
+            return particleMaxSpeed;
+        }
+
         public void SetSpreading(short spreading)
         {
             this.spreading = spreading;
         }
 
+        public short GetSpreading()
+        {
+            return spreading;
+        }
+
         public void SetDirection(short direction)
         {
             this.direction = direction;
+        }
+
+        public short GetDirection()
+        {
+            return direction;
         }
 
         public void SetStartColor(string startColor)
@@ -115,6 +147,11 @@ namespace ParticleSystem
             particles.Clear();
         }
 
+        public void AddImpactPoint(ImpactPoint point)
+        {
+            impactPoints.Add(point);
+        }
+
         //Обновление генератора
         public void Update()
         {
@@ -126,8 +163,8 @@ namespace ParticleSystem
                 {
                     particle.ResetHealth(particleMaxHealth);
                     particle.ResetRadius(particleMaxRadius);
-                    particle.ResetSpeedX(particleMaxSpeed, direction, spreading);
-                    particle.ResetSpeedY(particleMaxSpeed, direction, spreading);
+                    particle.ResetSpeedX(particleMinSpeed, particleMaxSpeed, direction, spreading);
+                    particle.ResetSpeedY(particleMinSpeed, particleMaxSpeed, direction, spreading);
                     particle.SetX(x);
                     particle.SetY(y);
                     ++particlesAmount;
@@ -138,19 +175,17 @@ namespace ParticleSystem
                     particle.AddSpeedY(gravitationY);
                     particle.AddX(particle.GetSpeedX());
                     particle.AddY(particle.GetSpeedY());
-                }              
+                }
+
+                foreach (ImpactPoint point in impactPoints)
+                {
+                    point.Impact(particle);
+                }
             }
 
             CreateParticles(frequency);
         }
 
-        public void ReleaseImpact(ImpactPoint point)
-        {
-            foreach(Particle particle in particles)
-            {
-                point.Impact(particle);
-            }
-        }
 
         //Отрисовка
         public void Render(System.Drawing.Graphics drawer)
@@ -158,6 +193,11 @@ namespace ParticleSystem
             foreach (Particle particle in particles)
             {
                 particle.Draw(drawer, startColor, endColor);
+            }
+
+            foreach (ImpactPoint point in impactPoints)
+            {
+                point.Draw(drawer);
             }
         }
 
@@ -167,7 +207,7 @@ namespace ParticleSystem
             //создаем частицы
             for (int i = 0; i < frequency && particles.Count < frequency * 50; ++i)
             {
-                particles.Add(new Particle(x, y, particleMaxRadius, particleMaxHealth, particleMaxSpeed, direction, spreading));
+                particles.Add(new Particle(x, y, particleMaxRadius, particleMaxHealth, particleMinSpeed, particleMaxSpeed, direction, spreading));
             }
         }
     }

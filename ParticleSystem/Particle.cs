@@ -16,12 +16,12 @@ namespace ParticleSystem
         private float speedX;
         private float speedY;       
         private static Random dataGenerator = new Random();
-        public Particle(float x, float y, short maxRadius, short maxHealth, short maxSpeed, short direction, short spreading)
+        public Particle(float x, float y, short maxRadius, short maxHealth, short minSpeed, short maxSpeed, short direction, short spreading)
         {
             radius = (short)dataGenerator.Next(1, maxRadius + 1);
             health = (float)dataGenerator.Next(1, maxHealth + 1);
             float calculatedDirection = direction + (float)dataGenerator.Next(spreading + 1) - spreading / 2;
-            short calculatedSpeed = (short)dataGenerator.Next(1, maxSpeed + 1);
+            short calculatedSpeed = (short)dataGenerator.Next(minSpeed, maxSpeed + 1);
             speedX = (float)(Math.Cos(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
             speedY = -(float)(Math.Sin(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
             this.x = x;
@@ -58,17 +58,17 @@ namespace ParticleSystem
             this.health = health;
         }
 
-        public void ResetSpeedX(short maxSpeed, short direction, short spreading)
+        public void ResetSpeedX(short minSpeed, short maxSpeed, short direction, short spreading)
         {
             float calculatedDirection = direction + (float)dataGenerator.Next(spreading + 1) - spreading / 2;
-            short calculatedSpeed = (short)dataGenerator.Next(1, maxSpeed + 1);
+            short calculatedSpeed = (short)dataGenerator.Next(minSpeed, maxSpeed + 1);
             speedX = (float)(Math.Cos(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
         }
 
-        public void ResetSpeedY(short maxSpeed, short direction, short spreading)
+        public void ResetSpeedY(short minSpeed, short maxSpeed, short direction, short spreading)
         {
             float calculatedDirection = direction + (float)dataGenerator.Next(spreading + 1) - spreading / 2;
-            short calculatedSpeed = (short)dataGenerator.Next(1, maxSpeed + 1);
+            short calculatedSpeed = (short)dataGenerator.Next(minSpeed, maxSpeed + 1);
             speedY = -(float)(Math.Sin(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
         }
 
