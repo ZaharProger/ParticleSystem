@@ -16,19 +16,21 @@ namespace ParticleSystem
         private float speedX;
         private float speedY;       
         private static Random dataGenerator = new Random();
-        public Particle(float x, float y)
+        public Particle(float x, float y, short minRadius, short maxRadius, short minHealth, short maxHealth, short minSpeed, short maxSpeed, short direction, short spreading)
         {
-            radius = (short)dataGenerator.Next(1, 16);
-            health = (float)dataGenerator.Next(10, 101);
-            speedX = (float)(Math.Cos(dataGenerator.Next(360) / 180 * Math.PI) * dataGenerator.Next(1, 11));
-            speedY = -(float)(Math.Sin(dataGenerator.Next(360) / 180 * Math.PI) * dataGenerator.Next(1, 11));
+            radius = (short)dataGenerator.Next(minRadius, maxRadius + 1);
+            health = (float)dataGenerator.Next(minHealth, maxHealth + 1);
+            float calculatedDirection = direction + (float)dataGenerator.Next(spreading + 1) - spreading / 2;
+            short calculatedSpeed = (short)dataGenerator.Next(minSpeed, maxSpeed + 1);
+            speedX = (float)(Math.Cos(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
+            speedY = -(float)(Math.Sin(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
             this.x = x;
             this.y = y;
         }
 
-        public void ResetRadius()
+        public void ResetRadius(short minRadius, short maxRadius)
         {
-            radius = (short)dataGenerator.Next(1, 16);
+            radius = (short)dataGenerator.Next(minRadius, maxRadius + 1);
         }
 
         public short GetRadius()
@@ -36,9 +38,9 @@ namespace ParticleSystem
             return radius;
         }
 
-        public void ResetHealth()
+        public void ResetHealth(short minHealth, short maxHealth)
         {
-            health = (float)dataGenerator.Next(10, 101);
+            health = (float)dataGenerator.Next(minHealth, maxHealth + 1);
         }
 
         public void AddHealth(float health)
@@ -56,14 +58,18 @@ namespace ParticleSystem
             this.health = health;
         }
 
-        public void ResetSpeedX()
+        public void ResetSpeedX(short minSpeed, short maxSpeed, short direction, short spreading)
         {
-            speedX = (float)(Math.Cos(dataGenerator.Next(360) / 180 * Math.PI) * dataGenerator.Next(1, 11));
+            float calculatedDirection = direction + (float)dataGenerator.Next(spreading + 1) - spreading / 2;
+            short calculatedSpeed = (short)dataGenerator.Next(minSpeed, maxSpeed + 1);
+            speedX = (float)(Math.Cos(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
         }
 
-        public void ResetSpeedY()
+        public void ResetSpeedY(short minSpeed, short maxSpeed, short direction, short spreading)
         {
-            speedY = -(float)(Math.Sin(dataGenerator.Next(360) / 180 * Math.PI) * dataGenerator.Next(1, 11));
+            float calculatedDirection = direction + (float)dataGenerator.Next(spreading + 1) - spreading / 2;
+            short calculatedSpeed = (short)dataGenerator.Next(minSpeed, maxSpeed + 1);
+            speedY = -(float)(Math.Sin(calculatedDirection / 180 * Math.PI) * calculatedSpeed);
         }
 
         public void SetX(float x)
