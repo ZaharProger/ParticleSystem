@@ -215,7 +215,7 @@ namespace ParticleSystem
 
             foreach (ImpactPoint point in impactPoints)
             {
-                if (point is ParticleCollector)
+                if (point is ParticleCollector || point is Teleport)
                     point.Draw(drawer);
             }
         }

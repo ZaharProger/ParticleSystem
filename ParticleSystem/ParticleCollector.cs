@@ -27,6 +27,13 @@ namespace ParticleSystem
             height = 0;
         }
 
+        public void Clear()
+        {
+            smallAmount = 0;
+            mediumAmount = 0;
+            largeAmount = 0;
+        }
+
         public override void Impact(Particle particle)
         {
             if (Math.Sqrt(Math.Pow(particle.GetX() - x, 2) + Math.Pow(particle.GetY() - y, 2)) < width / 2)

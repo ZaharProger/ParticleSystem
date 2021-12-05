@@ -15,6 +15,7 @@ namespace ParticleSystem
 
         private List<Generator> generators;
         private ParticleCollector collector;
+        private Teleport teleport;
         private short collectorSizeFlag;
         private short activeGenerator;
         private List<Label> particleValues;
@@ -32,7 +33,7 @@ namespace ParticleSystem
             directionBar.Minimum = 0;
             spreadingBar.Maximum = 359;
             spreadingBar.Minimum = 1;
-            particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, stream1Value, stream2Value };
+            particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, streamValue};
 
             collectorSizeFlag = 0;
             activeGenerator = 1;
@@ -44,15 +45,18 @@ namespace ParticleSystem
             generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 + 120, 10, 100, 1, 10, 0, 10, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(viewPort.Width / 2 - 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(viewPort.Width / 2 + 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 180, 1, "ffff0000", "000000ff", 10, 0, 1));
+            generators.Add(new Generator(100, 100, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 0.5f));
             collector = new ParticleCollector();
+            teleport = new Teleport(100, 500, 80, 80, 800, 100);
             foreach (Generator generator in generators)
             {
                 generator.AddImpactPoint(collector);
+                generator.AddImpactPoint(teleport);
             }
             generators[0].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 500, 500, 100, false));
             generators[1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2 + 120, 20, 20, 50, false));
             generators[2].AddImpactPoint(new GravityPoint(viewPort.Width / 2 - 80, viewPort.Height / 2 - 80, 20, 20, 500, false));
-            generators[3].AddImpactPoint(new GravityPoint(viewPort.Width / 2 + 80, viewPort.Height / 2 - 80, 20, 20, 500, false));
+            generators[3].AddImpactPoint(new GravityPoint(viewPort.Width / 2 + 80, viewPort.Height / 2 - 80, 20, 20, 500, false)); 
         }
 
         //обработка двойного щелчка
@@ -294,12 +298,7 @@ namespace ParticleSystem
 
         private void generator5Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 5;
-        }
-
-        private void generator6Button_Click(object sender, EventArgs e)
-        {
-            activeGenerator = 6;
+            activeGenerator = 4;
         }
         #endregion[выбор генератора]       
 
@@ -307,6 +306,12 @@ namespace ParticleSystem
         private void switchButton_Click(object sender, EventArgs e)
         {
             generators[activeGenerator].SwitchActivity();
+        }
+
+        //Очистка сборщика частиц
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            collector.Clear();
         }
     }
 }
