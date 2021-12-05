@@ -17,6 +17,7 @@ namespace ParticleSystem
         private ParticleCollector collector;
         private short collectorSizeFlag;
         private short activeGenerator;
+        private List<Label> particleValues;
 
         public MainWindow()
         {
@@ -31,6 +32,7 @@ namespace ParticleSystem
             directionBar.Minimum = 0;
             spreadingBar.Maximum = 359;
             spreadingBar.Minimum = 1;
+            particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, stream1Value, stream2Value };
 
             collectorSizeFlag = 0;
             activeGenerator = 1;
@@ -118,11 +120,16 @@ namespace ParticleSystem
             using (Graphics drawer = Graphics.FromImage(viewPort.Image))
             {
                 drawer.Clear(Color.Black);
+                byte i = 0;
                 foreach (Generator generator in generators)
                 {
-                    generator.Update();
-                    particlesAmountValue.Text = (int.Parse(particlesAmountValue.Text) + generator.GetParticlesAmount()).ToString();                    
-                    generator.Render(drawer);
+                    if (generator.IsActive())
+                    {
+                        generator.Update();
+                        particleValues[i].Text = generator.GetParticlesAmount().ToString();
+                        generator.Render(drawer);
+                    }
+                    ++i;
                 }
             }
             
@@ -290,6 +297,11 @@ namespace ParticleSystem
             activeGenerator = 6;
         }
         #endregion[выбор генератора]       
-       
+
+        //Включение/отключение генераторов
+        private void switchButton_Click(object sender, EventArgs e)
+        {
+            generators[activeGenerator].SwitchActivity();
+        }
     }
 }

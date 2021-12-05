@@ -11,7 +11,8 @@ namespace ParticleSystem
     {
         private List<Particle> particles;
         private List<ImpactPoint> impactPoints;
-        private int particlesAmount;
+        private bool isActive;
+        private long particlesAmount;
         private int x;
         private int y;
         private short particleMaxRadius;
@@ -30,6 +31,7 @@ namespace ParticleSystem
         {
             particles = new List<Particle>();
             impactPoints = new List<ImpactPoint>();
+            isActive = true;
             x = 0;
             y = 0;
             particleMaxRadius = 15;
@@ -50,6 +52,7 @@ namespace ParticleSystem
         {
             particles = new List<Particle>();
             impactPoints = new List<ImpactPoint>();
+            isActive = true;
             this.x = x;
             this.y = y;
             particleMaxRadius = maxRadius;
@@ -64,6 +67,16 @@ namespace ParticleSystem
             this.frequency = frequency;
             this.gravitationX = gravitationX;
             this.gravitationY = gravitationY;
+        }
+
+        public void SwitchActivity()
+        {
+            isActive = !isActive;
+        }
+
+        public bool IsActive()
+        {
+            return isActive;
         }
 
         public void SetX(int x)
@@ -141,7 +154,7 @@ namespace ParticleSystem
             this.endColor = endColor;
         }
 
-        public int GetParticlesAmount()
+        public long GetParticlesAmount()
         {
             return particlesAmount;
         }
