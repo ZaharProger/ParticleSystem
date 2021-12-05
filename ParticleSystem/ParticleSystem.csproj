@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="Converter.cs" />
+    <Compile Include="DebugMode.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="GravityPoint.cs" />
     <Compile Include="HexToRGBConverter.cs" />

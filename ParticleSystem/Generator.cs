@@ -26,7 +26,7 @@ namespace ParticleSystem
         private string startColor;
         private string endColor;
         private int frequency;
-
+       
         public Generator()
         {
             particles = new List<Particle>();
@@ -171,47 +171,35 @@ namespace ParticleSystem
         }
 
         //Обновление генератора
-        public void Update()
+        public void Update(byte stepFlag)
         {
             //Вычитаем время жизни у частиц, обновляя их характеристики при нулевом времени жизни, иначем придаем динамику
-            foreach (Particle particle in particles)
+            if (stepFlag != 2)
             {
-                particle.AddHealth(-0.5f);
-                if (particle.GetHealth() < 0)
+                foreach (Particle particle in particles)
                 {
-                    particle.ResetHealth(particleMaxHealth);
-                    particle.ResetRadius(particleMaxRadius);
-                    particle.ResetSpeedX(particleMinSpeed, particleMaxSpeed, direction, spreading);
-                    particle.ResetSpeedY(particleMinSpeed, particleMaxSpeed, direction, spreading);
-                    particle.SetX(x);
-                    particle.SetY(y);
-                    ++particlesAmount;
-                }
-                else
-                {
-                    particle.AddSpeedX(gravitationX);
-                    particle.AddSpeedY(gravitationY);
-                    particle.AddX(particle.GetSpeedX());
-                    particle.AddY(particle.GetSpeedY());
-                }
-
-                foreach (ImpactPoint point in impactPoints)
-                {
-                    if (point == impactPoints[impactPoints.Count - 1] && point.IsActive())
+                    particle.AddHealth(-0.5f);
+                    if (particle.GetHealth() < 0)
                     {
-                        point.AddX(-0.01f);
-                        if (point.GetX() <= -60)
-                        {
-                            point.SetActivity(false);
-                            point.SetX(1660);
-                        }
-                    } 
-                    
-                    if (point.IsActive())
-                        point.Impact(particle);
+                        particle.ResetHealth(particleMaxHealth);
+                        particle.ResetRadius(particleMaxRadius);
+                        particle.ResetSpeedX(particleMinSpeed, particleMaxSpeed, direction, spreading);
+                        particle.ResetSpeedY(particleMinSpeed, particleMaxSpeed, direction, spreading);
+                        particle.SetX(x);
+                        particle.SetY(y);
+                        ++particlesAmount;
+                    }
+                    else
+                    {
+                        particle.AddSpeedX(gravitationX);
+                        particle.AddSpeedY(gravitationY);
+                        particle.AddX(particle.GetSpeedX());
+                        particle.AddY(particle.GetSpeedY());
+                    }
                 }
             }
 
+            ReleaseImpact(stepFlag);
             CreateParticles(frequency);
         }
 
@@ -238,6 +226,34 @@ namespace ParticleSystem
             for (int i = 0; i < frequency && particles.Count < frequency * 50; ++i)
             {
                 particles.Add(new Particle(x, y, particleMaxRadius, particleMaxHealth, particleMinSpeed, particleMaxSpeed, direction, spreading));
+            }
+        }
+
+        //Взаимодействие с точками
+        private void ReleaseImpact(byte stepFlag)
+        {
+            foreach (Particle particle in particles)
+            {
+                foreach (ImpactPoint point in impactPoints)
+                {
+                    if (stepFlag != 2)
+                    {
+                        if (point == impactPoints[impactPoints.Count - 1] && point.IsActive())
+                        {
+                            point.AddX(-0.04f);
+                            if (point.GetX() <= -60)
+                            {
+                                point.SetActivity(false);
+                                point.SetX(1660);
+                            }
+                        }
+
+                        if (point.IsActive())
+                            point.Impact(particle);
+                    }
+                    else if (point is Analyzer)
+                        point.Impact(particle);
+                }
             }
         }
     }

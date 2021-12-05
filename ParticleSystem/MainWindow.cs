@@ -21,6 +21,7 @@ namespace ParticleSystem
         private short collectorSizeFlag;
         private short activeGenerator;
         private List<Label> particleValues;
+        private DebugMode debugMode;
 
         public MainWindow()
         {
@@ -41,7 +42,7 @@ namespace ParticleSystem
             activeGenerator = 1;
             viewPort.Image = new Bitmap(viewPort.Width, viewPort.Height);
 
-
+            debugMode = new DebugMode();
             generators = new List<Generator>();
             generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 250, 10, 100, 10, 10, 0, 10, "ffff0000", "0000ff00", 10, 0, 0));
             generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 + 120, 10, 100, 1, 10, 0, 10, "ffff0000", "000000ff", 10, 0, 1));
@@ -51,7 +52,7 @@ namespace ParticleSystem
             collector = new ParticleCollector(0, 0, 100, false);
             teleport = new Teleport(100, 500, 80, 80, 800, 100, true);
             antiGravityPoint = new GravityPoint(1660, viewPort.Height / 2, 50, 15, 200, true, false);
-            analyzer = new Analyzer(0, 0, 5, true);
+            analyzer = new Analyzer(0, 0, 10, true);
             generators[0].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 500, 500, 100, false, true));
             generators[1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2 + 120, 20, 20, 50, false, true));
             generators[2].AddImpactPoint(new GravityPoint(viewPort.Width / 2 - 80, viewPort.Height / 2 - 80, 20, 20, 500, false, true));
@@ -153,7 +154,7 @@ namespace ParticleSystem
                 {
                     if (generator.IsActive())
                     {
-                        generator.Update();
+                        generator.Update(debugMode.GetStepFlag());
                         infoField.Text = analyzer.GetInfo();
                         particleValues[i].Text = generator.GetParticlesAmount().ToString();
                         generator.Render(drawer);
@@ -161,7 +162,9 @@ namespace ParticleSystem
                     ++i;
                 }
             }
-            
+
+            if (debugMode.GetStepFlag() == 1)
+                debugMode.SetStepFlag(2);
             viewPort.Invalidate();
         }
 
@@ -344,6 +347,21 @@ namespace ParticleSystem
         {
             collector.SwitchActivity();
             analyzer.SwitchActivity();
+        }
+
+        //Установка пошаговой симуляции
+        private void stepButton_Click(object sender, EventArgs e)
+        {
+            switch (debugMode.GetStepFlag())
+            {
+                case 0:
+                    debugMode.SetStepFlag(1);
+                    break;
+                default:
+                    debugMode.SetStepFlag(0);
+                    debugMode.SetStepFlag(1);
+                    break;
+            }
         }
     }
 }
