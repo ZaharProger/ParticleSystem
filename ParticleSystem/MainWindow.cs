@@ -121,6 +121,10 @@ namespace ParticleSystem
             {
                 collectorSizeFlag = 0;
             }
+            else if (e.KeyCode == Keys.V)
+            {
+                collector.Clear();
+            }
             else if (e.KeyCode != Keys.Left && e.KeyCode != Keys.Right && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down)
             {
                 frequencyField.Focus();
@@ -323,16 +327,16 @@ namespace ParticleSystem
             generators[activeGenerator].SwitchActivity();
         }
 
-        //Очистка сборщика частиц
-        private void clearButton_Click(object sender, EventArgs e)
-        {
-            collector.Clear();
-        }
-
         //Запуск отталкивающей точки
         private void interactiveButton_Click(object sender, EventArgs e)
         {
             antiGravityPoint.SetActivity(true);
+        }
+
+        //Активация сборщика частиц
+        private void collectorSwitchButton_Click(object sender, EventArgs e)
+        {
+            collector.SwitchActivity();
         }
     }
 }
