@@ -23,7 +23,7 @@ namespace ParticleSystem
         {
             InitializeComponent();
             radiusBar.Maximum = 50;
-            radiusBar.Minimum = 1;
+            radiusBar.Minimum = 1;           
             healthBar.Maximum = 100;
             healthBar.Minimum = 1;
             speedBar.Maximum = 100;
@@ -40,7 +40,7 @@ namespace ParticleSystem
 
 
             generators = new List<Generator>();
-            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 250, 10, 100, 10, 10, 0, 10, "ffdfbfa1", "00af957b", 10, 0, 0));
+            generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 250, 10, 100, 10, 10, 0, 10, "ffff0000", "0000ff00", 10, 0, 0));
             generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 + 120, 10, 100, 1, 10, 0, 10, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(viewPort.Width / 2 - 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(viewPort.Width / 2 + 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 180, 1, "ffff0000", "000000ff", 10, 0, 1));
@@ -240,17 +240,20 @@ namespace ParticleSystem
         #region[изменение параметров генератора]
         private void radiusBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetMaxRadius((short)radiusBar.Value);       
+            generators[activeGenerator].SetMaxRadius((short)radiusBar.Value);
+            tip.SetToolTip(radiusBar, radiusBar.Value.ToString());
         }
 
         private void healthBar_Scroll(object sender, EventArgs e)
         {
             generators[activeGenerator].SetMaxHealth((short)healthBar.Value);
+            tip.SetToolTip(healthBar, healthBar.Value.ToString());
         }
 
         private void speedBar_Scroll(object sender, EventArgs e)
         {
             generators[activeGenerator].SetMaxSpeed((short)speedBar.Value);
+            tip.SetToolTip(speedBar, speedBar.Value.ToString());
             if (activeGenerator == 0)
                 generators[activeGenerator].SetMinSpeed((short)speedBar.Value);
         }
@@ -258,11 +261,13 @@ namespace ParticleSystem
         private void directionBar_Scroll(object sender, EventArgs e)
         {
             generators[activeGenerator].SetDirection((short)directionBar.Value);
+            tip.SetToolTip(directionBar, directionBar.Value.ToString());
         }
 
         private void spreadingBar_Scroll(object sender, EventArgs e)
         {
             generators[activeGenerator].SetSpreading((short)spreadingBar.Value);
+            tip.SetToolTip(spreadingBar, spreadingBar.Value.ToString());
         }
         #endregion[изменение параметров генератора]
 
