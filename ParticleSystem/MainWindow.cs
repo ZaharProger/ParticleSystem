@@ -25,7 +25,7 @@ namespace ParticleSystem
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
             radiusBar.Maximum = 50;
             radiusBar.Minimum = 1;           
             healthBar.Maximum = 100;
@@ -36,6 +36,8 @@ namespace ParticleSystem
             directionBar.Minimum = 0;
             spreadingBar.Maximum = 359;
             spreadingBar.Minimum = 1;
+            simulationSpeedBar.Maximum = 50;
+            simulationSpeedBar.Minimum = 1;
             particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, streamValue};
 
             collectorSizeFlag = 0;
@@ -362,6 +364,18 @@ namespace ParticleSystem
                     debugMode.SetStepFlag(1);
                     break;
             }
+        }
+
+        private void simulationSpeedBar_Scroll(object sender, EventArgs e)
+        {          
+            debugMode.SetDelta((short)simulationSpeedBar.Value);
+            time.Interval = debugMode.CalculateSpeed();
+            debugMode.SetStepFlag(0);
+        }
+
+        private void deltaButton_Click(object sender, EventArgs e)
+        {
+            debugMode.SwitchSign();
         }
     }
 }
