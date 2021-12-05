@@ -197,7 +197,18 @@ namespace ParticleSystem
 
                 foreach (ImpactPoint point in impactPoints)
                 {
-                    point.Impact(particle);
+                    if (point == impactPoints[impactPoints.Count - 1] && point.IsActive())
+                    {
+                        point.AddX(-0.01f);
+                        if (point.GetX() <= -60)
+                        {
+                            point.SetActivity(false);
+                            point.SetX(1660);
+                        }
+                    } 
+                    
+                    if (point.IsActive())
+                        point.Impact(particle);
                 }
             }
 
@@ -215,7 +226,7 @@ namespace ParticleSystem
 
             foreach (ImpactPoint point in impactPoints)
             {
-                if (point is ParticleCollector || point is Teleport)
+                if ((point is ParticleCollector || point is Teleport || point == impactPoints[impactPoints.Count - 1]) && point.IsActive())
                     point.Draw(drawer);
             }
         }

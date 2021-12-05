@@ -17,14 +17,16 @@ namespace ParticleSystem
         public ParticleCollector() : base()
         {
             width = 100;
+            isActive = true;
         }
 
-        public ParticleCollector(float x, float y, int width)
+        public ParticleCollector(float x, float y, int width, bool isActive)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             height = 0;
+            this.isActive = isActive;
         }
 
         public void Clear()

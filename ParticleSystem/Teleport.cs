@@ -21,15 +21,27 @@ namespace ParticleSystem
             height = 0;
             outputX = 0;
             outputY = 0;
+            isActive = true;
         }
 
-        public Teleport(float x, float y, float width, float height, float outputX, float outputY)
+        public Teleport(float x, float y, float width, float height, float outputX, float outputY, bool isActive)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
             this.outputX = outputX;
+            this.outputY = outputY;
+            this.isActive = isActive;
+        }
+
+        public void SetOutputX(float outputX)
+        {
+            this.outputX = outputX;
+        }
+
+        public void SetOutputY(float outputY)
+        {
             this.outputY = outputY;
         }
 

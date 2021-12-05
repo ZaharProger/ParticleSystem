@@ -16,6 +16,7 @@ namespace ParticleSystem
         private List<Generator> generators;
         private ParticleCollector collector;
         private Teleport teleport;
+        private GravityPoint antiGravityPoint;
         private short collectorSizeFlag;
         private short activeGenerator;
         private List<Label> particleValues;
@@ -47,31 +48,33 @@ namespace ParticleSystem
             generators.Add(new Generator(viewPort.Width / 2 + 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 180, 1, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(100, 100, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 0.5f));
             collector = new ParticleCollector();
-            teleport = new Teleport(100, 500, 80, 80, 800, 100);
+            teleport = new Teleport(100, 500, 80, 80, 800, 100, true);
+            antiGravityPoint = new GravityPoint(1660, viewPort.Height / 2, 50, 15, 200, true, false);           
+            generators[0].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 500, 500, 100, false, true));
+            generators[1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2 + 120, 20, 20, 50, false, true));
+            generators[2].AddImpactPoint(new GravityPoint(viewPort.Width / 2 - 80, viewPort.Height / 2 - 80, 20, 20, 500, false, true));
+            generators[3].AddImpactPoint(new GravityPoint(viewPort.Width / 2 + 80, viewPort.Height / 2 - 80, 20, 20, 500, false, true));
             foreach (Generator generator in generators)
             {
                 generator.AddImpactPoint(collector);
                 generator.AddImpactPoint(teleport);
+                generator.AddImpactPoint(antiGravityPoint);
             }
-            generators[0].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 500, 500, 100, false));
-            generators[1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2 + 120, 20, 20, 50, false));
-            generators[2].AddImpactPoint(new GravityPoint(viewPort.Width / 2 - 80, viewPort.Height / 2 - 80, 20, 20, 500, false));
-            generators[3].AddImpactPoint(new GravityPoint(viewPort.Width / 2 + 80, viewPort.Height / 2 - 80, 20, 20, 500, false)); 
-        }
-
-        //обработка двойного щелчка
-        private void viewPort_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            collectorSizeFlag = 0;
         }
 
         //обработка нажатий клавиши мыши
         private void viewPort_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                collectorSizeFlag = 1;
+            {
+                teleport.SetX(e.X);
+                teleport.SetY(e.Y);
+            }
             else if (e.Button == MouseButtons.Right)
-                collectorSizeFlag = -1;
+            {
+                teleport.SetOutputX(e.X);
+                teleport.SetOutputY(e.Y);
+            }
         }
 
         //обработка движения мыши
@@ -106,7 +109,19 @@ namespace ParticleSystem
                     MessageBox.Show("Введите положительное число не более " + int.MaxValue, "Ошибка");
                 }
             }
-            else
+            else if (e.KeyCode == Keys.Z)
+            {
+                collectorSizeFlag = 1;
+            }
+            else if (e.KeyCode == Keys.X)
+            {
+                collectorSizeFlag = -1;
+            }
+            else if (e.KeyCode == Keys.C)
+            {
+                collectorSizeFlag = 0;
+            }
+            else if (e.KeyCode != Keys.Left && e.KeyCode != Keys.Right && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down)
             {
                 frequencyField.Focus();
             }
@@ -312,6 +327,12 @@ namespace ParticleSystem
         private void clearButton_Click(object sender, EventArgs e)
         {
             collector.Clear();
+        }
+
+        //Запуск отталкивающей точки
+        private void interactiveButton_Click(object sender, EventArgs e)
+        {
+            antiGravityPoint.SetActivity(true);
         }
     }
 }

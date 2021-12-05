@@ -13,6 +13,7 @@ namespace ParticleSystem
         protected float y;
         protected float width;
         protected float height;
+        protected bool isActive;
 
         public void SetX(float x)
         {
@@ -24,9 +25,34 @@ namespace ParticleSystem
             this.y = y;
         }
 
+        public void AddX(float x)
+        {
+            this.x += x;
+        }
+
+        public float GetX()
+        {
+            return x;
+        }
+
         public void AddWidth(float width)
         {
             this.width += width;
+        }
+
+        public void SwitchActivity()
+        {
+            isActive = !isActive;
+        }
+
+        public bool IsActive()
+        {
+            return isActive;
+        }
+
+        public void SetActivity(bool status)
+        {
+            isActive = status;
         }
 
         //Воздействие на частицу

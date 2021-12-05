@@ -20,9 +20,10 @@ namespace ParticleSystem
             height = 0;
             width = 0;
             isReversed = false;
+            isActive = true;
         }
 
-        public GravityPoint(float x, float y, int width, int height, short power, bool isReversed)
+        public GravityPoint(float x, float y, int width, int height, short power, bool isReversed, bool isActive)
         {
             this.x = x;
             this.y = y;
@@ -30,6 +31,7 @@ namespace ParticleSystem
             this.width = width;
             this.power = power;
             this.isReversed = isReversed;
+            this.isActive = isActive;
         }
 
         public void SetPower(short power)
