@@ -155,5 +155,19 @@ namespace ParticleSystem
             drawer.FillEllipse(brush, x - radius, y - radius, radius * 2, radius * 2);
             brush.Dispose();
         }
+
+        //Информация о частице
+        public string GetInfo()
+        {
+            string type;
+            if (radius >= 1 && radius <= 5)
+                type = "маленькая";
+            else if (radius >= 6 && radius <= 10)
+                type = "средняя";
+            else
+                type = "большая";
+
+            return $"X = {x}; Y = {y}\nR = {radius}; HP = {health}\nТип: {type}";
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace ParticleSystem
         private ParticleCollector collector;
         private Teleport teleport;
         private GravityPoint antiGravityPoint;
+        private Analyzer analyzer;
         private short collectorSizeFlag;
         private short activeGenerator;
         private List<Label> particleValues;
@@ -47,15 +48,17 @@ namespace ParticleSystem
             generators.Add(new Generator(viewPort.Width / 2 - 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(viewPort.Width / 2 + 10, viewPort.Height / 2 - 80, 10, 100, 1, 1, 180, 1, "ffff0000", "000000ff", 10, 0, 1));
             generators.Add(new Generator(100, 100, 10, 100, 1, 1, 0, 1, "ffff0000", "000000ff", 10, 0, 0.5f));
-            collector = new ParticleCollector();
+            collector = new ParticleCollector(0, 0, 100, false);
             teleport = new Teleport(100, 500, 80, 80, 800, 100, true);
-            antiGravityPoint = new GravityPoint(1660, viewPort.Height / 2, 50, 15, 200, true, false);           
+            antiGravityPoint = new GravityPoint(1660, viewPort.Height / 2, 50, 15, 200, true, false);
+            analyzer = new Analyzer(0, 0, 5, true);
             generators[0].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2, 500, 500, 100, false, true));
             generators[1].AddImpactPoint(new GravityPoint(viewPort.Width / 2, viewPort.Height / 2 + 120, 20, 20, 50, false, true));
             generators[2].AddImpactPoint(new GravityPoint(viewPort.Width / 2 - 80, viewPort.Height / 2 - 80, 20, 20, 500, false, true));
             generators[3].AddImpactPoint(new GravityPoint(viewPort.Width / 2 + 80, viewPort.Height / 2 - 80, 20, 20, 500, false, true));
             foreach (Generator generator in generators)
             {
+                generator.AddImpactPoint(analyzer);
                 generator.AddImpactPoint(collector);
                 generator.AddImpactPoint(teleport);
                 generator.AddImpactPoint(antiGravityPoint);
@@ -81,7 +84,9 @@ namespace ParticleSystem
         private void viewPort_MouseMove(object sender, MouseEventArgs e)
         {
             collector.SetX(e.X);
-            collector.SetY(e.Y);          
+            collector.SetY(e.Y);
+            analyzer.SetX(e.X);
+            analyzer.SetY(e.Y);
         }
 
         //обработка нажатий клавиш
@@ -149,6 +154,7 @@ namespace ParticleSystem
                     if (generator.IsActive())
                     {
                         generator.Update();
+                        infoField.Text = analyzer.GetInfo();
                         particleValues[i].Text = generator.GetParticlesAmount().ToString();
                         generator.Render(drawer);
                     }
@@ -337,6 +343,7 @@ namespace ParticleSystem
         private void collectorSwitchButton_Click(object sender, EventArgs e)
         {
             collector.SwitchActivity();
+            analyzer.SwitchActivity();
         }
     }
 }

@@ -14,9 +14,12 @@ namespace ParticleSystem
         private int mediumAmount;
         private int largeAmount;
 
-        public ParticleCollector() : base()
+        public ParticleCollector()
         {
-            width = 100;
+            x = 0;
+            y = 0;
+            width = 0;
+            height = 0;
             isActive = true;
         }
 
