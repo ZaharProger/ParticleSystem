@@ -36,7 +36,7 @@ namespace ParticleSystem
             directionBar.Minimum = 0;
             spreadingBar.Maximum = 359;
             spreadingBar.Minimum = 1;
-            simulationSpeedBar.Maximum = 50;
+            simulationSpeedBar.Maximum = 4;
             simulationSpeedBar.Minimum = 1;
             particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, streamValue};
 

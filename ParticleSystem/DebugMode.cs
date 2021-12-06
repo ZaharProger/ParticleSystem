@@ -52,11 +52,7 @@ namespace ParticleSystem
 
         public short CalculateSpeed()
         {
-            string editedDelta = "0,";
-            if (sign == 1)
-                editedDelta += delta;
-
-            return (sign == 1)? (short)(speed * float.Parse(editedDelta)) : (short)(speed * delta);
+            return (sign == 1) ? (short)(speed / delta) : (short)(speed * delta);
         }
     }
 }
