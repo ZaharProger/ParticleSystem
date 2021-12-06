@@ -36,7 +36,7 @@ namespace ParticleSystem
             directionBar.Minimum = 0;
             spreadingBar.Maximum = 359;
             spreadingBar.Minimum = 1;
-            simulationSpeedBar.Maximum = 4;
+            simulationSpeedBar.Maximum = 5;
             simulationSpeedBar.Minimum = 1;
             particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, streamValue};
 
@@ -152,16 +152,30 @@ namespace ParticleSystem
             {
                 drawer.Clear(Color.Black);
                 byte i = 0;
-                foreach (Generator generator in generators)
-                {
-                    if (generator.IsActive())
+                if (debugMode.GetReverseFlag() == 0)
+                {                                     
+                    foreach (Generator generator in generators)
                     {
-                        generator.Update(debugMode.GetStepFlag());
-                        infoField.Text = analyzer.GetInfo();
-                        particleValues[i].Text = generator.GetParticlesAmount().ToString();
-                        generator.Render(drawer);
+                        if (generator.IsActive())
+                        {
+                            generator.Update(debugMode.GetStepFlag());
+                            infoField.Text = analyzer.GetInfo();
+                            particleValues[i].Text = generator.GetParticlesAmount().ToString();
+                            generator.Render(drawer);
+                        }
+                        ++i;
                     }
-                    ++i;
+                    debugMode.AddSystemStatus(viewPort.Image);
+                }
+                else
+                {
+                    if (!debugMode.isBufferEmpty())
+                    {
+                        if (debugMode.GetStepFlag() != 2)
+                            viewPort.Image = debugMode.GetPreviousSystemStatus();
+                    }                       
+                    else
+                        debugMode.SetReverseFlag(0);
                 }
             }
 
@@ -336,12 +350,14 @@ namespace ParticleSystem
         private void switchButton_Click(object sender, EventArgs e)
         {
             generators[activeGenerator].SwitchActivity();
+            tip.SetToolTip(switchButton, "Включение/Отключение компонента");
         }
 
         //Запуск отталкивающей точки
         private void interactiveButton_Click(object sender, EventArgs e)
         {
             antiGravityPoint.SetActivity(true);
+            tip.SetToolTip(interactiveButton, "Запуск интерактивной анимации");
         }
 
         //Активация сборщика частиц
@@ -349,6 +365,7 @@ namespace ParticleSystem
         {
             collector.SwitchActivity();
             analyzer.SwitchActivity();
+            tip.SetToolTip(collectorSwitchButton, "Смена сборщика частиц на анализатор частиц");
         }
 
         //Установка пошаговой симуляции
@@ -364,18 +381,30 @@ namespace ParticleSystem
                     debugMode.SetStepFlag(1);
                     break;
             }
+            tip.SetToolTip(stepButton, "Выполнить шаг симуляции");
         }
 
+        //Изменение скорости симуляции
         private void simulationSpeedBar_Scroll(object sender, EventArgs e)
         {          
-            debugMode.SetDelta((short)simulationSpeedBar.Value);
+            debugMode.SetDelta((byte)simulationSpeedBar.Value);
             time.Interval = debugMode.CalculateSpeed();
             debugMode.SetStepFlag(0);
+            tip.SetToolTip(simulationSpeedBar, simulationSpeedBar.Value.ToString());
         }
 
+        //Выбор режима ускорения или замедления
         private void deltaButton_Click(object sender, EventArgs e)
         {
             debugMode.SwitchSign();
+            tip.SetToolTip(deltaButton, "Ускорение/Замедление");
+        }
+
+        //Установка режима обратной симуляции
+        private void reverseButton_Click(object sender, EventArgs e)
+        {
+            debugMode.SetReverseFlag(1);
+            tip.SetToolTip(reverseButton, "Запуск симуляции в обратную сторону до 1000 шагов");
         }
     }
 }

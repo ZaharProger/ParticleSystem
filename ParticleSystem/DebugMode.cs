@@ -10,9 +10,12 @@ namespace ParticleSystem
     class DebugMode
     {
         private byte stepFlag;
-        private short delta;
-        private short speed;
+        private byte delta;
+        private byte speed;
         private byte sign;
+        private byte reverseFlag;
+        private List<System.Drawing.Image> buffer;
+        private const short bufferCapacity = 1000;
 
         public DebugMode()
         {
@@ -20,6 +23,37 @@ namespace ParticleSystem
             delta = 1;
             speed = 30;
             sign = 1;
+            reverseFlag = 0;
+            buffer = new List<System.Drawing.Image>();
+        }
+
+        public void AddSystemStatus (System.Drawing.Image status)
+        {
+            if (buffer.Count < bufferCapacity)
+                buffer.Add(status);
+        }
+
+        public bool isBufferEmpty()
+        {
+            return buffer.Count == 0;
+        }
+
+        public System.Drawing.Image GetPreviousSystemStatus()
+        {
+            System.Drawing.Image systemStatus = buffer[buffer.Count - 1];
+            buffer.RemoveAt(buffer.Count - 1);
+
+            return systemStatus;
+        }
+
+        public void SetReverseFlag(byte value)
+        {
+            reverseFlag = value;
+        }
+
+        public byte GetReverseFlag()
+        {
+            return reverseFlag;
         }
 
         public void SetStepFlag(byte value)
@@ -32,7 +66,7 @@ namespace ParticleSystem
             return stepFlag;
         }
 
-        public void SetDelta(short delta)
+        public void SetDelta(byte delta)
         {
             this.delta = delta;
         }
@@ -50,9 +84,9 @@ namespace ParticleSystem
             }
         }
 
-        public short CalculateSpeed()
+        public byte CalculateSpeed()
         {
-            return (sign == 1) ? (short)(speed / delta) : (short)(speed * delta);
+            return (sign == 1) ? (byte)(speed / delta) : (byte)(speed * delta);
         }
     }
 }

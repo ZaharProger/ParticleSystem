@@ -86,6 +86,7 @@ namespace ParticleSystem
             this.streamValue = new System.Windows.Forms.Label();
             this.time = new System.Windows.Forms.Timer(this.components);
             this.tip = new System.Windows.Forms.ToolTip(this.components);
+            this.reverseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.viewPort)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -155,6 +156,7 @@ namespace ParticleSystem
             this.tableLayoutPanel2.Controls.Add(this.stepButton, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel9, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.simulationSpeedLabel, 4, 1);
+            this.tableLayoutPanel2.Controls.Add(this.reverseButton, 5, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(353, 708);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -172,9 +174,9 @@ namespace ParticleSystem
             this.startColorLabel.AutoSize = true;
             this.startColorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startColorLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.startColorLabel.Location = new System.Drawing.Point(8, 99);
+            this.startColorLabel.Location = new System.Drawing.Point(172, 99);
             this.startColorLabel.Name = "startColorLabel";
-            this.startColorLabel.Size = new System.Drawing.Size(158, 33);
+            this.startColorLabel.Size = new System.Drawing.Size(164, 33);
             this.startColorLabel.TabIndex = 18;
             this.startColorLabel.Text = "Начальный цвет частиц";
             this.startColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -326,9 +328,9 @@ namespace ParticleSystem
             this.endColorLabel.AutoSize = true;
             this.endColorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.endColorLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.endColorLabel.Location = new System.Drawing.Point(172, 99);
+            this.endColorLabel.Location = new System.Drawing.Point(8, 99);
             this.endColorLabel.Name = "endColorLabel";
-            this.endColorLabel.Size = new System.Drawing.Size(164, 33);
+            this.endColorLabel.Size = new System.Drawing.Size(158, 33);
             this.endColorLabel.TabIndex = 16;
             this.endColorLabel.Text = "Конечный цвет частиц";
             this.endColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -945,6 +947,24 @@ namespace ParticleSystem
             // 
             this.tip.BackColor = System.Drawing.Color.LightGray;
             // 
+            // reverseButton
+            // 
+            this.reverseButton.BackColor = System.Drawing.Color.LightGray;
+            this.reverseButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reverseButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.reverseButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.reverseButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reverseButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.reverseButton.Location = new System.Drawing.Point(1106, 8);
+            this.reverseButton.Name = "reverseButton";
+            this.tableLayoutPanel2.SetRowSpan(this.reverseButton, 2);
+            this.reverseButton.Size = new System.Drawing.Size(107, 121);
+            this.reverseButton.TabIndex = 23;
+            this.reverseButton.Text = "Назад";
+            this.reverseButton.UseVisualStyleBackColor = false;
+            this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1040,5 +1060,6 @@ namespace ParticleSystem
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button deltaButton;
         private System.Windows.Forms.TrackBar simulationSpeedBar;
+        private System.Windows.Forms.Button reverseButton;
     }
 }
