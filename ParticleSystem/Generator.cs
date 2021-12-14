@@ -205,11 +205,11 @@ namespace ParticleSystem
 
 
         //Отрисовка
-        public void Render(System.Drawing.Graphics drawer)
+        public void Render(System.Drawing.Graphics drawer, byte xRayFlag)
         {
             foreach (Particle particle in particles)
             {
-                particle.Draw(drawer, startColor, endColor);
+                particle.Draw(drawer, startColor, endColor, xRayFlag);
             }
 
             foreach (ImpactPoint point in impactPoints)
@@ -251,7 +251,7 @@ namespace ParticleSystem
                         if (point.IsActive())
                             point.Impact(particle);
                     }
-                    else if (point is Analyzer)
+                    else if (point is Analyzer && point.IsActive())
                         point.Impact(particle);
                 }
             }

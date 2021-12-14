@@ -18,8 +18,6 @@ namespace ParticleSystem
         private Teleport teleport;
         private GravityPoint antiGravityPoint;
         private Analyzer analyzer;
-        private short collectorSizeFlag;
-        private short activeGenerator;
         private List<Label> particleValues;
         private DebugMode debugMode;
 
@@ -40,11 +38,9 @@ namespace ParticleSystem
             simulationSpeedBar.Minimum = 1;
             particleValues = new List<Label>() { circleValue, dotValue, leftWingValue, rightWingValue, streamValue};
 
-            collectorSizeFlag = 0;
-            activeGenerator = 1;
             viewPort.Image = new Bitmap(viewPort.Width, viewPort.Height);
 
-            debugMode = new DebugMode();
+            debugMode = new DebugMode((byte)time.Interval);
             generators = new List<Generator>();
             generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 - 250, 10, 100, 10, 10, 0, 10, "ffff0000", "0000ff00", 10, 0, 0));
             generators.Add(new Generator(viewPort.Width / 2, viewPort.Height / 2 + 120, 10, 100, 1, 10, 0, 10, "ffff0000", "000000ff", 10, 0, 1));
@@ -81,6 +77,10 @@ namespace ParticleSystem
                 teleport.SetOutputX(e.X);
                 teleport.SetOutputY(e.Y);
             }
+            else if (e.Button == MouseButtons.Middle)
+            {
+                analyzer.SetInteraction(analyzer.IsActive() ? (byte)5 : (byte)0);
+            }
         }
 
         //обработка движения мыши
@@ -101,7 +101,7 @@ namespace ParticleSystem
             {
                 try
                 {
-                    generators[activeGenerator].SetFrequency((int)uint.Parse(frequencyField.Text));
+                    generators[debugMode.GetActiveGenerator()].SetFrequency((int)uint.Parse(frequencyField.Text));
                 }
                 catch (FormatException)
                 {
@@ -119,19 +119,35 @@ namespace ParticleSystem
             }
             else if (e.KeyCode == Keys.Z)
             {
-                collectorSizeFlag = 1;
+                debugMode.SetCollectorSizeFlag(1);
             }
             else if (e.KeyCode == Keys.X)
             {
-                collectorSizeFlag = -1;
+                debugMode.SetCollectorSizeFlag(-1);
             }
             else if (e.KeyCode == Keys.C)
             {
-                collectorSizeFlag = 0;
+                debugMode.SetCollectorSizeFlag(0);
             }
             else if (e.KeyCode == Keys.V)
             {
                 collector.Clear();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                analyzer.SetInteraction(analyzer.IsActive() ? (byte)1 : (byte)0);
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                analyzer.SetInteraction(analyzer.IsActive() ? (byte)2 : (byte)0);
+            }
+            else if (e.KeyCode == Keys.Left)
+            {
+                analyzer.SetInteraction(analyzer.IsActive() ? (byte)3 : (byte)0);
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                analyzer.SetInteraction(analyzer.IsActive() ? (byte)4 : (byte)0);
             }
             else if (e.KeyCode != Keys.Left && e.KeyCode != Keys.Right && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down)
             {
@@ -142,83 +158,69 @@ namespace ParticleSystem
         //событие при очередном тике таймера
         private void time_Tick(object sender, EventArgs e)
         {
-            radiusBar.Value = generators[activeGenerator].GetMaxRadius();
-            healthBar.Value = generators[activeGenerator].GetMaxHealth();
-            speedBar.Value = generators[activeGenerator].GetMaxSpeed();
-            directionBar.Value = generators[activeGenerator].GetDirection();
-            spreadingBar.Value = generators[activeGenerator].GetSpreading();
-            collector.AddWidth(collectorSizeFlag);
+            radiusBar.Value = generators[debugMode.GetActiveGenerator()].GetMaxRadius();
+            healthBar.Value = generators[debugMode.GetActiveGenerator()].GetMaxHealth();
+            speedBar.Value = generators[debugMode.GetActiveGenerator()].GetMaxSpeed();
+            directionBar.Value = generators[debugMode.GetActiveGenerator()].GetDirection();
+            spreadingBar.Value = generators[debugMode.GetActiveGenerator()].GetSpreading();
+            collector.AddWidth(debugMode.GetCollectorSizeFlag());           
             using (Graphics drawer = Graphics.FromImage(viewPort.Image))
             {
                 drawer.Clear(Color.Black);
                 byte i = 0;
-                if (debugMode.GetReverseFlag() == 0)
-                {                                     
-                    foreach (Generator generator in generators)
-                    {
-                        if (generator.IsActive())
-                        {
-                            generator.Update(debugMode.GetStepFlag());
-                            infoField.Text = analyzer.GetInfo();
-                            particleValues[i].Text = generator.GetParticlesAmount().ToString();
-                            generator.Render(drawer);
-                        }
-                        ++i;
-                    }
-                    debugMode.AddSystemStatus(viewPort.Image);
-                }
-                else
+                foreach (Generator generator in generators)
                 {
-                    if (!debugMode.isBufferEmpty())
+                    if (generator.IsActive())
                     {
-                        if (debugMode.GetStepFlag() != 2)
-                            viewPort.Image = debugMode.GetPreviousSystemStatus();
-                    }                       
-                    else
-                        debugMode.SetReverseFlag(0);
+                        generator.Update(debugMode.GetStepFlag());
+                        infoField.Text = analyzer.GetInfo();
+                        particleValues[i].Text = generator.GetParticlesAmount().ToString();
+                        generator.Render(drawer, debugMode.GetXRayFlag());
+                    }
+                    ++i; ;
                 }
             }
 
             if (debugMode.GetStepFlag() == 1)
                 debugMode.SetStepFlag(2);
-            viewPort.Invalidate();
+            viewPort.Invalidate();                
         }
 
         #region[установка цветов]
         //выбор начального красного цвета для частиц
         private void redColorButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetStartColor("ffff0000");
+            generators[debugMode.GetActiveGenerator()].SetStartColor("ffff0000");
         }
 
         //выбор конечного оранжевого цвета для частиц
         private void orangeColorButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetStartColor("ffff8000");
+            generators[debugMode.GetActiveGenerator()].SetStartColor("ffff8000");
         }
 
         //выбор начального желтого цвета для частиц
         private void yellowColorButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetStartColor("ffffff00");
+            generators[debugMode.GetActiveGenerator()].SetStartColor("ffffff00");
         }
 
         //выбор конечного синего цвета для частиц
         private void blueColorButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetEndColor("000000ff");
+            generators[debugMode.GetActiveGenerator()].SetEndColor("000000ff");
         }
 
         //выбор конечного розового цвета для частиц
         private void pinkColorButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetEndColor("00ec0dda");
+            generators[debugMode.GetActiveGenerator()].SetEndColor("00ec0dda");
         }
 
         //выбор конечного зеленого цвета для частиц
         private void greenColorButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetEndColor("0000ff00");
+            generators[debugMode.GetActiveGenerator()].SetEndColor("0000ff00");
         }
         #endregion[установка цветов]
 
@@ -288,33 +290,33 @@ namespace ParticleSystem
         #region[изменение параметров генератора]
         private void radiusBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetMaxRadius((short)radiusBar.Value);
+            generators[debugMode.GetActiveGenerator()].SetMaxRadius((short)radiusBar.Value);
             tip.SetToolTip(radiusBar, radiusBar.Value.ToString());
         }
 
         private void healthBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetMaxHealth((short)healthBar.Value);
+            generators[debugMode.GetActiveGenerator()].SetMaxHealth((short)healthBar.Value);
             tip.SetToolTip(healthBar, healthBar.Value.ToString());
         }
 
         private void speedBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetMaxSpeed((short)speedBar.Value);
+            generators[debugMode.GetActiveGenerator()].SetMaxSpeed((short)speedBar.Value);
             tip.SetToolTip(speedBar, speedBar.Value.ToString());
-            if (activeGenerator == 0)
-                generators[activeGenerator].SetMinSpeed((short)speedBar.Value);
+            if (debugMode.GetActiveGenerator() == 0)
+                generators[debugMode.GetActiveGenerator()].SetMinSpeed((short)speedBar.Value);
         }
 
         private void directionBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetDirection((short)directionBar.Value);
+            generators[debugMode.GetActiveGenerator()].SetDirection((short)directionBar.Value);
             tip.SetToolTip(directionBar, directionBar.Value.ToString());
         }
 
         private void spreadingBar_Scroll(object sender, EventArgs e)
         {
-            generators[activeGenerator].SetSpreading((short)spreadingBar.Value);
+            generators[debugMode.GetActiveGenerator()].SetSpreading((short)spreadingBar.Value);
             tip.SetToolTip(spreadingBar, spreadingBar.Value.ToString());
         }
         #endregion[изменение параметров генератора]
@@ -322,34 +324,34 @@ namespace ParticleSystem
         #region[выбор генератора]
         private void generator1Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 0;
+            debugMode.SetActiveGenerator(0);
         }
 
         private void generator2Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 1;
+            debugMode.SetActiveGenerator(1);
         }
 
         private void generator3Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 2;
+            debugMode.SetActiveGenerator(2);
         }
 
         private void generator4Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 3;
+            debugMode.SetActiveGenerator(3);
         }
 
         private void generator5Button_Click(object sender, EventArgs e)
         {
-            activeGenerator = 4;
+            debugMode.SetActiveGenerator(4);
         }
         #endregion[выбор генератора]       
 
         //Включение/отключение генераторов
         private void switchButton_Click(object sender, EventArgs e)
         {
-            generators[activeGenerator].SwitchActivity();
+            generators[debugMode.GetActiveGenerator()].SwitchActivity();
             tip.SetToolTip(switchButton, "Включение/Отключение компонента");
         }
 
@@ -364,8 +366,19 @@ namespace ParticleSystem
         private void collectorSwitchButton_Click(object sender, EventArgs e)
         {
             collector.SwitchActivity();
-            analyzer.SwitchActivity();
-            tip.SetToolTip(collectorSwitchButton, "Смена сборщика частиц на анализатор частиц");
+            analyzer.SwitchActivity();          
+            if (collector.IsActive())
+            {
+                tip.SetToolTip(collectorSwitchButton, "Смена сборщика частиц на анализатор частиц");
+                tip.SetToolTip(viewPort, "Управление сборщиком частиц:\nУвеличить размер - Z\nУменьшить размер - X\nЗафиксировать размер - С\nОчистить - V");
+                collectorSwitchButton.Text = "Сборщик";
+            }
+            else
+            {
+                tip.SetToolTip(collectorSwitchButton, "Смена анализатора частиц на сборщик частиц");
+                tip.SetToolTip(viewPort, "Наведите на частицу курсор мыши, чтобы отобразить её характеристики\nИспользуйте стрелки для изменения параметров частицы\nПри нажатии колеса мыши частица будет удалена");
+                collectorSwitchButton.Text = "Анализатор";
+            }
         }
 
         //Установка пошаговой симуляции
@@ -400,11 +413,20 @@ namespace ParticleSystem
             tip.SetToolTip(deltaButton, "Ускорение/Замедление");
         }
 
-        //Установка режима обратной симуляции
-        private void reverseButton_Click(object sender, EventArgs e)
+        //Включение рентгена
+        private void xRayButton_Click(object sender, EventArgs e)
         {
-            debugMode.SetReverseFlag(1);
-            tip.SetToolTip(reverseButton, "Запуск симуляции в обратную сторону до 1000 шагов");
+            switch (debugMode.GetXRayFlag())
+            {
+                case 0:
+                    debugMode.SetXRayFlag(1);
+                    break;
+                default:
+                    debugMode.SetXRayFlag(0);
+                    break;
+            }
+
+            tip.SetToolTip(xRayButton, "Отрисовка контура частиц для отображения пересечения");
         }
     }
 }

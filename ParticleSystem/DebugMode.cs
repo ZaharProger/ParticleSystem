@@ -13,47 +13,38 @@ namespace ParticleSystem
         private byte delta;
         private byte speed;
         private byte sign;
-        private byte reverseFlag;
-        private List<System.Drawing.Image> buffer;
-        private const short bufferCapacity = 1000;
-
-        public DebugMode()
+        private byte xRayFlag;
+        private byte activeGenerator;
+        private short collectorSizeFlag;
+        public DebugMode(byte speed)
         {
             stepFlag = 0;
             delta = 1;
-            speed = 30;
+            this.speed = speed;
             sign = 1;
-            reverseFlag = 0;
-            buffer = new List<System.Drawing.Image>();
+            xRayFlag = 0;
+            activeGenerator = 0;
+            collectorSizeFlag = 0;
         }
 
-        public void AddSystemStatus (System.Drawing.Image status)
+        public void SetActiveGenerator(byte value)
         {
-            if (buffer.Count < bufferCapacity)
-                buffer.Add(status);
+            activeGenerator = value;
         }
 
-        public bool isBufferEmpty()
+        public byte GetActiveGenerator()
         {
-            return buffer.Count == 0;
+            return activeGenerator;
         }
 
-        public System.Drawing.Image GetPreviousSystemStatus()
+        public void SetCollectorSizeFlag(short value)
         {
-            System.Drawing.Image systemStatus = buffer[buffer.Count - 1];
-            buffer.RemoveAt(buffer.Count - 1);
-
-            return systemStatus;
+            collectorSizeFlag = value;
         }
 
-        public void SetReverseFlag(byte value)
+        public short GetCollectorSizeFlag()
         {
-            reverseFlag = value;
-        }
-
-        public byte GetReverseFlag()
-        {
-            return reverseFlag;
+            return collectorSizeFlag;
         }
 
         public void SetStepFlag(byte value)
@@ -64,6 +55,16 @@ namespace ParticleSystem
         public byte GetStepFlag()
         {
             return stepFlag;
+        }
+
+        public void SetXRayFlag(byte value)
+        {
+            xRayFlag = value;
+        }
+
+        public byte GetXRayFlag()
+        {
+            return xRayFlag;
         }
 
         public void SetDelta(byte delta)

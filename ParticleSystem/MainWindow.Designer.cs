@@ -33,7 +33,7 @@ namespace ParticleSystem
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.viewPort = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.startColorLabel = new System.Windows.Forms.Label();
+            this.endColorLabel1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.blueColorButton = new System.Windows.Forms.Button();
             this.pinkColorButton = new System.Windows.Forms.Button();
@@ -42,7 +42,7 @@ namespace ParticleSystem
             this.yellowColorButton = new System.Windows.Forms.Button();
             this.orangeColorButton = new System.Windows.Forms.Button();
             this.redColorButton = new System.Windows.Forms.Button();
-            this.endColorLabel = new System.Windows.Forms.Label();
+            this.startColorLabel = new System.Windows.Forms.Label();
             this.infoLabel = new System.Windows.Forms.Label();
             this.infoField = new System.Windows.Forms.RichTextBox();
             this.stepButton = new System.Windows.Forms.Button();
@@ -50,6 +50,7 @@ namespace ParticleSystem
             this.deltaButton = new System.Windows.Forms.Button();
             this.simulationSpeedBar = new System.Windows.Forms.TrackBar();
             this.simulationSpeedLabel = new System.Windows.Forms.Label();
+            this.xRayButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.interactiveButton = new System.Windows.Forms.Button();
@@ -86,7 +87,6 @@ namespace ParticleSystem
             this.streamValue = new System.Windows.Forms.Label();
             this.time = new System.Windows.Forms.Timer(this.components);
             this.tip = new System.Windows.Forms.ToolTip(this.components);
-            this.reverseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.viewPort)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -146,17 +146,17 @@ namespace ParticleSystem
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 340F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 310F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
-            this.tableLayoutPanel2.Controls.Add(this.startColorLabel, 0, 1);
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 117F));
+            this.tableLayoutPanel2.Controls.Add(this.endColorLabel1, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.endColorLabel, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.startColorLabel, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.infoLabel, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.infoField, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.stepButton, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel9, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.simulationSpeedLabel, 4, 1);
-            this.tableLayoutPanel2.Controls.Add(this.reverseButton, 5, 0);
+            this.tableLayoutPanel2.Controls.Add(this.xRayButton, 5, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(353, 708);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -169,33 +169,33 @@ namespace ParticleSystem
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1221, 137);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // startColorLabel
+            // endColorLabel1
             // 
-            this.startColorLabel.AutoSize = true;
-            this.startColorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startColorLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.startColorLabel.Location = new System.Drawing.Point(172, 99);
-            this.startColorLabel.Name = "startColorLabel";
-            this.startColorLabel.Size = new System.Drawing.Size(164, 33);
-            this.startColorLabel.TabIndex = 18;
-            this.startColorLabel.Text = "Начальный цвет частиц";
-            this.startColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.endColorLabel1.AutoSize = true;
+            this.endColorLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.endColorLabel1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.endColorLabel1.Location = new System.Drawing.Point(169, 99);
+            this.endColorLabel1.Name = "endColorLabel1";
+            this.endColorLabel1.Size = new System.Drawing.Size(162, 33);
+            this.endColorLabel1.TabIndex = 18;
+            this.endColorLabel1.Text = "Цвет 2";
+            this.endColorLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.48485F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.51515F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel4.Controls.Add(this.blueColorButton, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.pinkColorButton, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.greenColorButton, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(172, 8);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(169, 8);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(164, 88);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(162, 88);
             this.tableLayoutPanel4.TabIndex = 15;
             // 
             // blueColorButton
@@ -208,9 +208,9 @@ namespace ParticleSystem
             this.blueColorButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Blue;
             this.blueColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.blueColorButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.blueColorButton.Location = new System.Drawing.Point(112, 3);
+            this.blueColorButton.Location = new System.Drawing.Point(120, 3);
             this.blueColorButton.Name = "blueColorButton";
-            this.blueColorButton.Size = new System.Drawing.Size(49, 82);
+            this.blueColorButton.Size = new System.Drawing.Size(39, 82);
             this.blueColorButton.TabIndex = 11;
             this.blueColorButton.UseVisualStyleBackColor = false;
             this.blueColorButton.Click += new System.EventHandler(this.blueColorButton_Click);
@@ -226,9 +226,9 @@ namespace ParticleSystem
             this.pinkColorButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Fuchsia;
             this.pinkColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pinkColorButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.pinkColorButton.Location = new System.Drawing.Point(56, 3);
+            this.pinkColorButton.Location = new System.Drawing.Point(60, 3);
             this.pinkColorButton.Name = "pinkColorButton";
-            this.pinkColorButton.Size = new System.Drawing.Size(50, 82);
+            this.pinkColorButton.Size = new System.Drawing.Size(54, 82);
             this.pinkColorButton.TabIndex = 10;
             this.pinkColorButton.UseVisualStyleBackColor = false;
             this.pinkColorButton.Click += new System.EventHandler(this.pinkColorButton_Click);
@@ -246,7 +246,7 @@ namespace ParticleSystem
             this.greenColorButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.greenColorButton.Location = new System.Drawing.Point(3, 3);
             this.greenColorButton.Name = "greenColorButton";
-            this.greenColorButton.Size = new System.Drawing.Size(47, 82);
+            this.greenColorButton.Size = new System.Drawing.Size(51, 82);
             this.greenColorButton.TabIndex = 9;
             this.greenColorButton.UseVisualStyleBackColor = false;
             this.greenColorButton.Click += new System.EventHandler(this.greenColorButton_Click);
@@ -257,7 +257,7 @@ namespace ParticleSystem
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.69325F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.30675F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.tableLayoutPanel3.Controls.Add(this.yellowColorButton, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.orangeColorButton, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.redColorButton, 0, 0);
@@ -266,7 +266,7 @@ namespace ParticleSystem
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(158, 88);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(155, 88);
             this.tableLayoutPanel3.TabIndex = 14;
             // 
             // yellowColorButton
@@ -279,9 +279,9 @@ namespace ParticleSystem
             this.yellowColorButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Yellow;
             this.yellowColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.yellowColorButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.yellowColorButton.Location = new System.Drawing.Point(107, 3);
+            this.yellowColorButton.Location = new System.Drawing.Point(114, 3);
             this.yellowColorButton.Name = "yellowColorButton";
-            this.yellowColorButton.Size = new System.Drawing.Size(48, 82);
+            this.yellowColorButton.Size = new System.Drawing.Size(38, 82);
             this.yellowColorButton.TabIndex = 5;
             this.yellowColorButton.UseVisualStyleBackColor = false;
             this.yellowColorButton.Click += new System.EventHandler(this.yellowColorButton_Click);
@@ -297,9 +297,9 @@ namespace ParticleSystem
             this.orangeColorButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.orangeColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.orangeColorButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.orangeColorButton.Location = new System.Drawing.Point(55, 3);
+            this.orangeColorButton.Location = new System.Drawing.Point(58, 3);
             this.orangeColorButton.Name = "orangeColorButton";
-            this.orangeColorButton.Size = new System.Drawing.Size(46, 82);
+            this.orangeColorButton.Size = new System.Drawing.Size(50, 82);
             this.orangeColorButton.TabIndex = 4;
             this.orangeColorButton.UseVisualStyleBackColor = false;
             this.orangeColorButton.Click += new System.EventHandler(this.orangeColorButton_Click);
@@ -317,30 +317,30 @@ namespace ParticleSystem
             this.redColorButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.redColorButton.Location = new System.Drawing.Point(3, 3);
             this.redColorButton.Name = "redColorButton";
-            this.redColorButton.Size = new System.Drawing.Size(46, 82);
+            this.redColorButton.Size = new System.Drawing.Size(49, 82);
             this.redColorButton.TabIndex = 3;
             this.redColorButton.UseVisualStyleBackColor = false;
             this.redColorButton.Click += new System.EventHandler(this.redColorButton_Click);
             this.redColorButton.MouseLeave += new System.EventHandler(this.redColorButton_MouseLeave);
             // 
-            // endColorLabel
+            // startColorLabel
             // 
-            this.endColorLabel.AutoSize = true;
-            this.endColorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.endColorLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.endColorLabel.Location = new System.Drawing.Point(8, 99);
-            this.endColorLabel.Name = "endColorLabel";
-            this.endColorLabel.Size = new System.Drawing.Size(158, 33);
-            this.endColorLabel.TabIndex = 16;
-            this.endColorLabel.Text = "Конечный цвет частиц";
-            this.endColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.startColorLabel.AutoSize = true;
+            this.startColorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startColorLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.startColorLabel.Location = new System.Drawing.Point(8, 99);
+            this.startColorLabel.Name = "startColorLabel";
+            this.startColorLabel.Size = new System.Drawing.Size(155, 33);
+            this.startColorLabel.TabIndex = 16;
+            this.startColorLabel.Text = "Цвет 1";
+            this.startColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // infoLabel
             // 
             this.infoLabel.AutoSize = true;
             this.infoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.infoLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.infoLabel.Location = new System.Drawing.Point(342, 99);
+            this.infoLabel.Location = new System.Drawing.Point(337, 99);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(334, 33);
             this.infoLabel.TabIndex = 17;
@@ -352,7 +352,7 @@ namespace ParticleSystem
             this.infoField.BackColor = System.Drawing.Color.LightGray;
             this.infoField.Dock = System.Windows.Forms.DockStyle.Fill;
             this.infoField.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.infoField.Location = new System.Drawing.Point(342, 8);
+            this.infoField.Location = new System.Drawing.Point(337, 8);
             this.infoField.Name = "infoField";
             this.infoField.ReadOnly = true;
             this.infoField.Size = new System.Drawing.Size(334, 88);
@@ -369,7 +369,7 @@ namespace ParticleSystem
             this.stepButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.stepButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.stepButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.stepButton.Location = new System.Drawing.Point(682, 8);
+            this.stepButton.Location = new System.Drawing.Point(677, 8);
             this.stepButton.Name = "stepButton";
             this.tableLayoutPanel2.SetRowSpan(this.stepButton, 2);
             this.stepButton.Size = new System.Drawing.Size(108, 121);
@@ -389,7 +389,7 @@ namespace ParticleSystem
             this.tableLayoutPanel9.Controls.Add(this.deltaButton, 4, 0);
             this.tableLayoutPanel9.Controls.Add(this.simulationSpeedBar, 0, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(796, 8);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(791, 8);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.Padding = new System.Windows.Forms.Padding(10);
             this.tableLayoutPanel9.RowCount = 1;
@@ -430,12 +430,30 @@ namespace ParticleSystem
             this.simulationSpeedLabel.AutoSize = true;
             this.simulationSpeedLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.simulationSpeedLabel.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.simulationSpeedLabel.Location = new System.Drawing.Point(796, 99);
+            this.simulationSpeedLabel.Location = new System.Drawing.Point(791, 99);
             this.simulationSpeedLabel.Name = "simulationSpeedLabel";
             this.simulationSpeedLabel.Size = new System.Drawing.Size(304, 33);
             this.simulationSpeedLabel.TabIndex = 22;
             this.simulationSpeedLabel.Text = "Скорость симуляции";
             this.simulationSpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // xRayButton
+            // 
+            this.xRayButton.BackColor = System.Drawing.Color.LightGray;
+            this.xRayButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.xRayButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.xRayButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.xRayButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.xRayButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.xRayButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.xRayButton.Location = new System.Drawing.Point(1101, 8);
+            this.xRayButton.Name = "xRayButton";
+            this.tableLayoutPanel2.SetRowSpan(this.xRayButton, 2);
+            this.xRayButton.Size = new System.Drawing.Size(112, 121);
+            this.xRayButton.TabIndex = 23;
+            this.xRayButton.Text = "X-ray";
+            this.xRayButton.UseVisualStyleBackColor = false;
+            this.xRayButton.Click += new System.EventHandler(this.xRayButton_Click);
             // 
             // tableLayoutPanel5
             // 
@@ -785,7 +803,7 @@ namespace ParticleSystem
             this.collectorSwitchButton.Name = "collectorSwitchButton";
             this.collectorSwitchButton.Size = new System.Drawing.Size(164, 45);
             this.collectorSwitchButton.TabIndex = 32;
-            this.collectorSwitchButton.Text = "Сборщик";
+            this.collectorSwitchButton.Text = "Анализатор";
             this.collectorSwitchButton.UseVisualStyleBackColor = false;
             this.collectorSwitchButton.Click += new System.EventHandler(this.collectorSwitchButton_Click);
             // 
@@ -947,24 +965,6 @@ namespace ParticleSystem
             // 
             this.tip.BackColor = System.Drawing.Color.LightGray;
             // 
-            // reverseButton
-            // 
-            this.reverseButton.BackColor = System.Drawing.Color.LightGray;
-            this.reverseButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.reverseButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.reverseButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.reverseButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.reverseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.reverseButton.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.reverseButton.Location = new System.Drawing.Point(1106, 8);
-            this.reverseButton.Name = "reverseButton";
-            this.tableLayoutPanel2.SetRowSpan(this.reverseButton, 2);
-            this.reverseButton.Size = new System.Drawing.Size(107, 121);
-            this.reverseButton.TabIndex = 23;
-            this.reverseButton.Text = "Назад";
-            this.reverseButton.UseVisualStyleBackColor = false;
-            this.reverseButton.Click += new System.EventHandler(this.reverseButton_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1016,7 +1016,7 @@ namespace ParticleSystem
         private System.Windows.Forms.Button yellowColorButton;
         private System.Windows.Forms.Button orangeColorButton;
         private System.Windows.Forms.Button redColorButton;
-        private System.Windows.Forms.Label endColorLabel;
+        private System.Windows.Forms.Label startColorLabel;
         private System.Windows.Forms.Label infoLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Button generator5Button;
@@ -1053,13 +1053,13 @@ namespace ParticleSystem
         private System.Windows.Forms.Button switchButton;
         private System.Windows.Forms.ToolTip tip;
         private System.Windows.Forms.Button collectorSwitchButton;
-        private System.Windows.Forms.Label startColorLabel;
+        private System.Windows.Forms.Label endColorLabel1;
         private System.Windows.Forms.RichTextBox infoField;
         private System.Windows.Forms.Button stepButton;
         private System.Windows.Forms.Label simulationSpeedLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button deltaButton;
         private System.Windows.Forms.TrackBar simulationSpeedBar;
-        private System.Windows.Forms.Button reverseButton;
+        private System.Windows.Forms.Button xRayButton;
     }
 }
