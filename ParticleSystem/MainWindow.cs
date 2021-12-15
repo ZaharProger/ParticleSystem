@@ -69,17 +69,24 @@ namespace ParticleSystem
         {
             if (e.Button == MouseButtons.Left)
             {
-                teleport.SetX(e.X);
-                teleport.SetY(e.Y);
+                if (teleport.IsActive())
+                {
+                    teleport.SetX(e.X);
+                    teleport.SetY(e.Y);
+                }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                teleport.SetOutputX(e.X);
-                teleport.SetOutputY(e.Y);
+                if (teleport.IsActive())
+                {
+                    teleport.SetOutputX(e.X);
+                    teleport.SetOutputY(e.Y);
+                }
+                    
             }
             else if (e.Button == MouseButtons.Middle)
             {
-                analyzer.SetInteraction(analyzer.IsActive() ? (byte)5 : (byte)0);
+                teleport.SwitchActivity();
             }
         }
 
@@ -119,37 +126,39 @@ namespace ParticleSystem
             }
             else if (e.KeyCode == Keys.Z)
             {
-                debugMode.SetCollectorSizeFlag(1);
+                if (collector.IsActive())
+                    debugMode.SetCollectorSizeFlag(1);
+                else
+                    analyzer.SetInteraction(1);
             }
             else if (e.KeyCode == Keys.X)
             {
-                debugMode.SetCollectorSizeFlag(-1);
+                if (collector.IsActive())
+                    debugMode.SetCollectorSizeFlag(-1);
+                else
+                    analyzer.SetInteraction(2);
             }
             else if (e.KeyCode == Keys.C)
             {
-                debugMode.SetCollectorSizeFlag(0);
+                if (collector.IsActive())
+                    debugMode.SetCollectorSizeFlag(0);
+                else
+                    analyzer.SetInteraction(5);
             }
             else if (e.KeyCode == Keys.V)
             {
-                collector.Clear();
+                if (collector.IsActive())
+                    collector.Clear();
+                else
+                    analyzer.SetInteraction(3);
             }
-            else if (e.KeyCode == Keys.Up)
+            else if (e.KeyCode == Keys.B)
             {
-                analyzer.SetInteraction(analyzer.IsActive() ? (byte)1 : (byte)0);
+                if (analyzer.IsActive())
+                    analyzer.SetInteraction(4);
             }
-            else if (e.KeyCode == Keys.Down)
-            {
-                analyzer.SetInteraction(analyzer.IsActive() ? (byte)2 : (byte)0);
-            }
-            else if (e.KeyCode == Keys.Left)
-            {
-                analyzer.SetInteraction(analyzer.IsActive() ? (byte)3 : (byte)0);
-            }
-            else if (e.KeyCode == Keys.Right)
-            {
-                analyzer.SetInteraction(analyzer.IsActive() ? (byte)4 : (byte)0);
-            }
-            else if (e.KeyCode != Keys.Left && e.KeyCode != Keys.Right && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down)
+            else if (e.KeyCode != Keys.Left && e.KeyCode != Keys.Right && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down &&
+                e.KeyCode != Keys.Z && e.KeyCode != Keys.X && e.KeyCode != Keys.C && e.KeyCode != Keys.V && e.KeyCode != Keys.B)
             {
                 frequencyField.Focus();
             }
@@ -376,7 +385,7 @@ namespace ParticleSystem
             else
             {
                 tip.SetToolTip(collectorSwitchButton, "Смена анализатора частиц на сборщик частиц");
-                tip.SetToolTip(viewPort, "Наведите на частицу курсор мыши, чтобы отобразить её характеристики\nИспользуйте стрелки для изменения параметров частицы\nПри нажатии колеса мыши частица будет удалена");
+                tip.SetToolTip(viewPort, "Наведите на частицу курсор мыши, чтобы отобразить её характеристики\nУвеличить жизнь - Z\nУменьшить жизнь - X\nУдалить - C\nУвеличить радиус - V\nУменьшить радиус - B");
                 collectorSwitchButton.Text = "Анализатор";
             }
         }
@@ -427,6 +436,12 @@ namespace ParticleSystem
             }
 
             tip.SetToolTip(xRayButton, "Отрисовка контура частиц для отображения пересечения");
+        }
+
+        private void simulationSpeedBar_MouseHover(object sender, EventArgs e)
+        {
+            time.Interval = debugMode.CalculateSpeed();
+            debugMode.SetStepFlag(0);
         }
     }
 }
